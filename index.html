@@ -10,7 +10,7 @@
 <body>
   <h1>Code Text Tools</h1>
   <div>
-    <textarea id="inputText" name="inputText" rows="10" cols="50"></textarea>
+    <textarea id="inputText" name="inputText" rows="10" cols="50">one,two,three</textarea>
   </div>
   <div>
     <h2>Actions</h2>
@@ -35,13 +35,16 @@
           console.log("Updating text area");
           document.getElementById("inputText").value = cleanText || "empty";
 
-          this.memory.push(rawText);
+          if (this.memory[this.memory.length - 1] !== rawText){
+            this.memory.push(rawText);
+          }
           console.log(this.memory);
         },
         undo: function() {
           if (this.memory.length > 0) {
             document.getElementById("inputText").value = this.memory.pop() || "";
           };
+          console.log(this.memory);
         }
       };
   </script>
