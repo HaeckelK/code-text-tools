@@ -22,7 +22,10 @@
   <script>
       let memoryTest = {
         memory: [],
+        actions: [],
         processText: function(func) {
+          this.actions.push(func.name);
+
           let rawText = document.getElementById("inputText").value;
           console.log(`Fetching data from text area: ${rawText}`);
           
