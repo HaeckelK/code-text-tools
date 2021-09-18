@@ -10,10 +10,49 @@
 <body>
   <h1>Code Text Tools</h1>
   <div>
+    <textarea id="inputText" name="inputText" rows="10" cols="50">one,two,three</textarea>
+  </div>
+  <div>
+    <h2>Panel</h2>
+    <button onclick="textProcessor.undo()">Undo</button>
+    <button onclick="textProcessor.clearText()">Clear Text</button>
+    <h2>Actions</h2>
+    <button onclick="textProcessor.processText(rowToLines)">Row To Lines</button>
+    <button onclick="textProcessor.processText(linesToRow)">Lines To Row</button>
+    <button onclick="textProcessor.processText(linesEqualSelf)">Lines Equal Self</button>
   </div>
 
   <script>
-      smokeTest();
+      let textProcessor = {
+        memory: [],
+        actions: [],
+        processText: function(func) {
+          this.actions.push(func.name);
+
+          let rawText = document.getElementById("inputText").value;
+          console.log(`Fetching data from text area: ${rawText}`);
+          
+          console.log(`Running called function ${func.name}`);
+          let cleanText = func(rawText);
+
+          console.log("Updating text area");
+          document.getElementById("inputText").value = cleanText || "empty";
+
+          if (this.memory[this.memory.length - 1] !== rawText){
+            this.memory.push(rawText);
+          }
+          console.log(this.memory);
+        },
+        undo: function() {
+          if (this.memory.length > 0) {
+            document.getElementById("inputText").value = this.memory.pop() || "";
+          };
+          console.log(this.memory);
+        },
+        clearText: function() {
+          document.getElementById("inputText").value = '';
+        }
+      };
   </script>
 </body>
 </html>
