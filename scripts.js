@@ -1,7 +1,7 @@
-function rowToLine(text) {
+function rowToLines(text) {
     return text.split(",").join("\n");
 };
 
-function LineToRow(text) {
+function LinesToRow(text) {
     return text.split("\n").join(",");
 };
