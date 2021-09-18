@@ -10,10 +10,25 @@
 <body>
   <h1>Code Text Tools</h1>
   <div>
+    <textarea id="inputText" name="inputText" rows="10" cols="50"></textarea>
+  </div>
+  <div>
+    <h2>Actions</h2>
+    <button onclick="processText(rowToLine)">Row To Line</button>
+    <button onclick="processText(LineToRow)">Line To Row</button>
   </div>
 
   <script>
-      smokeTest();
+      const processText = (func) => {
+        let rawText = document.getElementById("inputText").value;
+        console.log(`Fetching data from text area: ${rawText}`);
+        
+        console.log(`Running called function ${func.name}`);
+        let cleanText = func(rawText);
+
+        console.log("Updating text area");
+        document.getElementById("inputText").value = cleanText || "empty";
+      };
   </script>
 </body>
 </html>
