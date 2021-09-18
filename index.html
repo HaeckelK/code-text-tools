@@ -13,11 +13,12 @@
     <textarea id="inputText" name="inputText" rows="10" cols="50">one,two,three</textarea>
   </div>
   <div>
+    <h2>Panel</h2>
+    <button onclick="memoryTest.undo()">Undo</button>
+    <button onclick="memoryTest.clearText()">Clear Text</button>
     <h2>Actions</h2>
     <button onclick="memoryTest.processText(rowToLines)">Row To Lines</button>
     <button onclick="memoryTest.processText(LinesToRow)">Lines To Row</button>
-    <button onclick="memoryTest.undo()">Undo</button>
-    <button onclick="memoryTest.clearText()">Clear Text</button>
   </div>
 
   <script>
