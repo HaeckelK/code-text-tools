@@ -17,6 +17,7 @@
     <button onclick="memoryTest.processText(rowToLines)">Row To Lines</button>
     <button onclick="memoryTest.processText(LinesToRow)">Lines To Row</button>
     <button onclick="memoryTest.undo()">Undo</button>
+    <button onclick="memoryTest.clearText()">Clear Text</button>
   </div>
 
   <script>
@@ -45,6 +46,9 @@
             document.getElementById("inputText").value = this.memory.pop() || "";
           };
           console.log(this.memory);
+        },
+        clearText: function() {
+          document.getElementById("inputText").value = '';
         }
       };
   </script>
