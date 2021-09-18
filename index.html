@@ -14,20 +14,32 @@
   </div>
   <div>
     <h2>Actions</h2>
-    <button onclick="processText(rowToLines)">Row To Lines</button>
-    <button onclick="processText(LinesToRow)">Lines To Row</button>
+    <button onclick="memoryTest.processText(rowToLines)">Row To Lines</button>
+    <button onclick="memoryTest.processText(LinesToRow)">Lines To Row</button>
+    <button onclick="memoryTest.undo()">Undo</button>
   </div>
 
   <script>
-      const processText = (func) => {
-        let rawText = document.getElementById("inputText").value;
-        console.log(`Fetching data from text area: ${rawText}`);
-        
-        console.log(`Running called function ${func.name}`);
-        let cleanText = func(rawText);
+      let memoryTest = {
+        memory: [],
+        processText: function(func) {
+          let rawText = document.getElementById("inputText").value;
+          console.log(`Fetching data from text area: ${rawText}`);
+          
+          console.log(`Running called function ${func.name}`);
+          let cleanText = func(rawText);
 
-        console.log("Updating text area");
-        document.getElementById("inputText").value = cleanText || "empty";
+          console.log("Updating text area");
+          document.getElementById("inputText").value = cleanText || "empty";
+
+          this.memory.push(rawText);
+          console.log(this.memory);
+        },
+        undo: function() {
+          if (this.memory.length > 0) {
+            document.getElementById("inputText").value = this.memory.pop() || "";
+          };
+        }
       };
   </script>
 </body>
