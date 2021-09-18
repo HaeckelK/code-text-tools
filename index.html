@@ -14,16 +14,16 @@
   </div>
   <div>
     <h2>Panel</h2>
-    <button onclick="memoryTest.undo()">Undo</button>
-    <button onclick="memoryTest.clearText()">Clear Text</button>
+    <button onclick="textProcessor.undo()">Undo</button>
+    <button onclick="textProcessor.clearText()">Clear Text</button>
     <h2>Actions</h2>
-    <button onclick="memoryTest.processText(rowToLines)">Row To Lines</button>
-    <button onclick="memoryTest.processText(linesToRow)">Lines To Row</button>
-    <button onclick="memoryTest.processText(linesEqualSelf)">Lines Equal Self</button>
+    <button onclick="textProcessor.processText(rowToLines)">Row To Lines</button>
+    <button onclick="textProcessor.processText(linesToRow)">Lines To Row</button>
+    <button onclick="textProcessor.processText(linesEqualSelf)">Lines Equal Self</button>
   </div>
 
   <script>
-      let memoryTest = {
+      let textProcessor = {
         memory: [],
         actions: [],
         processText: function(func) {
