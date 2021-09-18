@@ -2,6 +2,7 @@ function rowToLines(text) {
     return text.split(",").join("\n");
 };
 
-function LinesToRow(text) {
+
+function linesToRow(text) {
     return text.split("\n").join(",");
 };
