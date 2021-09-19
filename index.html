@@ -20,20 +20,28 @@
     <button onclick="textProcessor.processText(rowToLines)">Row To Lines</button>
     <button onclick="textProcessor.processText(linesToRow)">Lines To Row</button>
     <button onclick="textProcessor.processText(linesEqualSelf)">Lines Equal Self</button>
+    <button onclick="textProcessor.processText(linesPrefix, 'Enter Prefix')">Prefix</button>
   </div>
 
   <script>
       let textProcessor = {
         memory: [],
         actions: [],
-        processText: function(func) {
+        processText: function(func, parameterMessage) {
           this.actions.push(func.name);
 
           let rawText = document.getElementById("inputText").value;
           console.log(`Fetching data from text area: ${rawText}`);
           
           console.log(`Running called function ${func.name}`);
-          let cleanText = func(rawText);
+
+          let cleanText;
+          if (parameterMessage) {
+            let arg = prompt(parameterMessage);
+            cleanText = func(rawText, arg || '');
+          } else {
+            cleanText = func(rawText);
+          };
 
           console.log("Updating text area");
           document.getElementById("inputText").value = cleanText || "empty";
