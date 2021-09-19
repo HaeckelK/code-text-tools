@@ -17,3 +17,13 @@ function linesPrefix(text, prefix='') {
 function linesSuffix(text, suffix='') {
     return text.split("\n").map(x => x + suffix).join("\n");
 };
+
+function linesZip(text, delim='') {
+    let clean = [];
+    let lines = text.split("\n");
+    let mid = Math.floor(lines.length / 2);
+    for (let i = 0; i < mid; i++){
+        clean.push(lines[i] + delim + lines[mid + i]);
+    }
+    return clean.join("\n");
+};
