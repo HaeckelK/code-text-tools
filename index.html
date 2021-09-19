@@ -14,15 +14,26 @@
   </div>
   <div>
     <h2>Panel</h2>
-    <button onclick="textProcessor.undo()">Undo</button>
-    <button onclick="textProcessor.clearText()">Clear Text</button>
+    <button onclick="textProcessor.undo()" onmouseover="textProcessor.describe('undo');">Undo</button>
+    <button onclick="textProcessor.clearText()" onmouseover="textProcessor.describe('clearText');">Clear Text</button>
     <h2>Actions</h2>
-    <button onclick="textProcessor.processText(rowToLines)">Row To Lines</button>
-    <button onclick="textProcessor.processText(linesToRow)">Lines To Row</button>
-    <button onclick="textProcessor.processText(linesEqualSelf)">Lines Equal Self</button>
-    <button onclick="textProcessor.processText(linesPrefix, 'Enter Prefix')">Prefix</button>
-    <button onclick="textProcessor.processText(linesSuffix, 'Enter Suffix')">Suffix</button>
-    <button onclick="textProcessor.processText(linesZip, 'Enter Delimiter')">Zip Lines</button>
+    <button onclick="textProcessor.processText(rowToLines)" onmouseover="textProcessor.describe('rowToLines');">Row To Lines</button>
+    <button onclick="textProcessor.processText(linesToRow)" onmouseover="textProcessor.describe('linesToRow');">Lines To Row</button>
+    <button onclick="textProcessor.processText(linesEqualSelf)" onmouseover="textProcessor.describe('linesEqualSelf');">Lines Equal Self</button>
+    <button onclick="textProcessor.processText(linesPrefix, 'Enter Prefix')" onmouseover="textProcessor.describe('linesPrefix');">Prefix</button>
+    <button onclick="textProcessor.processText(linesSuffix, 'Enter Suffix')" onmouseover="textProcessor.describe('linesSuffix');">Suffix</button>
+    <button onclick="textProcessor.processText(linesZip, 'Enter Delimiter')" onmouseover="textProcessor.describe('linesZip');">Zip Lines</button>
+  </div>
+
+  <div id="function_description_div">
+    <h3 id="function_title"></h3>
+    <p id="function_description"></p><br>
+    <div>
+      <p>Example Input</p>
+      <textarea id="example_input" rows="6" readonly></textarea>
+      <p>Example Output</p>
+      <textarea id="example_output" rows="6" readonly></textarea>
+    </div>
   </div>
 
   <script>
@@ -61,7 +72,61 @@
         },
         clearText: function() {
           document.getElementById("inputText").value = '';
-        }
+        },
+        describe: function(funcName) {
+          document.getElementById("function_title").innerText = this.descriptions[funcName].title;
+          document.getElementById("function_description").innerText = this.descriptions[funcName].description;
+          document.getElementById("example_input").value = this.descriptions[funcName].exampleInput || '';
+          document.getElementById("example_output").value = this.descriptions[funcName].exampleOutput || '';
+        },
+        descriptions: {
+                       "clearText": {
+                           "title": "Clear Text",
+                           "description": "Clear contents of text area. Retains history - accessed via Undo function.",
+                           "exampleInput": "one,two,three",
+                           "exampleOutput": ""
+                       },
+                       "undo": {
+                           "title": "Undo",
+                           "description": "here"
+                       },
+                       "rowToLines": {
+                           "title": "Row To Lines",
+                           "description": "here",
+                           "exampleInput": "one,two,three",
+                           "exampleOutput": "one\ntwo\nthree"
+                       },
+                       "linesToRow": {
+                           "title": "Lines To Row",
+                           "description": "here",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "one,two,three"
+                       },
+                       "linesEqualSelf": {
+                           "title": "Lines Equal Self",
+                           "description": "here",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "one=one\ntwo=two\nthree=three"
+                       },
+                       "linesPrefix": {
+                           "title": "Prefix",
+                           "description": "here",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "data[\"one\ndata[\"two\ndata[\"three"
+                       },
+                       "linesSuffix": {
+                           "title": "Suffix",
+                           "description": "here",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "one\"]\ntwo\"]\nthree\"]"
+                       },
+                       "linesZip": {
+                           "title": "Zip Lines",
+                           "description": "here",
+                           "exampleInput": "one\ntwo\nthree\nfour",
+                           "exampleOutput": "one=three\ntwo=four"
+                       },
+                   }
       };
   </script>
 </body>
