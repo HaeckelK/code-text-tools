@@ -40,6 +40,7 @@
       let textProcessor = {
         memory: [],
         actions: [],
+        userArgs: {},
         processText: function(func, parameterMessage) {
           this.actions.push(func.name);
 
@@ -50,8 +51,11 @@
 
           let cleanText;
           if (parameterMessage) {
-            let arg = prompt(parameterMessage);
+            let arg = prompt(parameterMessage, this.userArgs[func.name] || '');
             cleanText = func(rawText, arg || '');
+            if (arg) {
+              this.userArgs[func.name] = arg;
+            }
           } else {
             cleanText = func(rawText);
           };
