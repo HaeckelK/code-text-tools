@@ -13,3 +13,7 @@ function linesEqualSelf(text) {
 function linesPrefix(text, prefix='') {
     return text.split("\n").map(x => prefix + x).join("\n");
 };
+
+function linesSuffix(text, suffix='') {
+    return text.split("\n").map(x => x + suffix).join("\n");
+};
