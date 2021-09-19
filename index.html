@@ -27,7 +27,7 @@
 
   <div id="function_description_div">
     <h3 id="function_title"></h3>
-    <p id="function_description"></p><br>
+    <p id="function_description"></p>
     <div>
       <p>Example Input</p>
       <textarea id="example_input" rows="6" readonly></textarea>
@@ -88,41 +88,41 @@
                        },
                        "undo": {
                            "title": "Undo",
-                           "description": "here"
+                           "description": "Set text area to the value it had before most recent function was run."
                        },
                        "rowToLines": {
                            "title": "Row To Lines",
-                           "description": "here",
+                           "description": "Convert comma separated row to newline separated lines.",
                            "exampleInput": "one,two,three",
                            "exampleOutput": "one\ntwo\nthree"
                        },
                        "linesToRow": {
                            "title": "Lines To Row",
-                           "description": "here",
+                           "description": "Convert newline separated lines to single comma separated row.",
                            "exampleInput": "one\ntwo\nthree",
                            "exampleOutput": "one,two,three"
                        },
                        "linesEqualSelf": {
                            "title": "Lines Equal Self",
-                           "description": "here",
+                           "description": "For each line, duplicate text and separte with equals sign.",
                            "exampleInput": "one\ntwo\nthree",
                            "exampleOutput": "one=one\ntwo=two\nthree=three"
                        },
                        "linesPrefix": {
                            "title": "Prefix",
-                           "description": "here",
+                           "description": "Add prefix to each line in text area.",
                            "exampleInput": "one\ntwo\nthree",
                            "exampleOutput": "data[\"one\ndata[\"two\ndata[\"three"
                        },
                        "linesSuffix": {
                            "title": "Suffix",
-                           "description": "here",
+                           "description": "Add suffix to each line in text area.",
                            "exampleInput": "one\ntwo\nthree",
                            "exampleOutput": "one\"]\ntwo\"]\nthree\"]"
                        },
                        "linesZip": {
                            "title": "Zip Lines",
-                           "description": "here",
+                           "description": "Create lines by combining top half of lines with botton half, separated by user specified delimiter.",
                            "exampleInput": "one\ntwo\nthree\nfour",
                            "exampleOutput": "one=three\ntwo=four"
                        },
