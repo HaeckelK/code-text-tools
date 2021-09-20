@@ -24,6 +24,8 @@
     <button onclick="textProcessor.processText(linesPrefix, 'Enter Prefix')" onmouseover="textProcessor.describe('linesPrefix');">Prefix</button>
     <button onclick="textProcessor.processText(linesSuffix, 'Enter Suffix')" onmouseover="textProcessor.describe('linesSuffix');">Suffix</button>
     <button onclick="textProcessor.processText(linesZip, 'Enter Delimiter')" onmouseover="textProcessor.describe('linesZip');">Zip Lines</button>
+    <h2>Python</h2>
+    <button onclick="textProcessor.processText(linesToSelfAttributes)" onmouseover="textProcessor.describe('linesToSelfAttributes');">Attributes To Self</button>
   </div>
 
   <div id="function_description_div">
@@ -136,6 +138,12 @@
                            "description": "Create lines by combining top half of lines with botton half, separated by user specified delimiter.",
                            "exampleInput": "one\ntwo\nthree\nfour",
                            "exampleOutput": "one=three\ntwo=four"
+                       },
+                       "linesToSelfAttributes": {
+                           "title": "Attributes To Self",
+                           "description": "Convert lines to Python class self.x = x definition.",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "self.one = one\nself.two = two\nself.three = three"
                        },
                    }
       };

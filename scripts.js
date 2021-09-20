@@ -29,3 +29,5 @@ function linesZip(text, delim='') {
 };
 
 function linesTrim(text) { return text.split("\n").map(x => x.trim()).join("\n")};
+
+function linesToSelfAttributes(text) {return text.split("\n").map(x => `self.${x} = ${x}`).join("\n")}
