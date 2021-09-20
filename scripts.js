@@ -27,3 +27,5 @@ function linesZip(text, delim='') {
     }
     return clean.join("\n");
 };
+
+function linesTrim(text) { return text.split("\n").map(x => x.trim()).join("\n")};

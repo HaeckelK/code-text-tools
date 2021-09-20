@@ -19,6 +19,7 @@
     <h2>Actions</h2>
     <button onclick="textProcessor.processText(rowToLines)" onmouseover="textProcessor.describe('rowToLines');">Row To Lines</button>
     <button onclick="textProcessor.processText(linesToRow)" onmouseover="textProcessor.describe('linesToRow');">Lines To Row</button>
+    <button onclick="textProcessor.processText(linesTrim)" onmouseover="textProcessor.describe('linesTrim');">Lines Trim</button>
     <button onclick="textProcessor.processText(linesEqualSelf)" onmouseover="textProcessor.describe('linesEqualSelf');">Lines Equal Self</button>
     <button onclick="textProcessor.processText(linesPrefix, 'Enter Prefix')" onmouseover="textProcessor.describe('linesPrefix');">Prefix</button>
     <button onclick="textProcessor.processText(linesSuffix, 'Enter Suffix')" onmouseover="textProcessor.describe('linesSuffix');">Suffix</button>
@@ -105,6 +106,12 @@
                            "description": "Convert newline separated lines to single comma separated row.",
                            "exampleInput": "one\ntwo\nthree",
                            "exampleOutput": "one,two,three"
+                       },
+                       "linesTrim": {
+                           "title": "Lines Trim",
+                           "description": "Remove surrounding whitespace from each line.",
+                           "exampleInput": "  one  \n two\n   three   ",
+                           "exampleOutput": "one\ntwo\nthree"
                        },
                        "linesEqualSelf": {
                            "title": "Lines Equal Self",
