@@ -1,4 +1,9 @@
 body {
-    background-color:#0f0f23;
-    color: #cccccc;
+    background-color:#002240;
+    color: #ccc;
+    font-family: fira code,monospace;
+}
+h1, h2, h3 {
+    line-height: 1.2;
+    color: #ffee80;
 }
