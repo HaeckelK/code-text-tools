@@ -18,3 +18,7 @@ button {
     border-width: 2px;
     border-style: solid;
 }
+button:hover{
+    background: #356c79;
+    border-color: #ec955b;
+}
