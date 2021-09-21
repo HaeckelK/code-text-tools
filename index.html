@@ -10,7 +10,7 @@
 <body>
   <h1>Code Text Tools</h1>
   <div>
-    <textarea id="inputText" name="inputText" rows="10" cols="50">one,two,three</textarea>
+    <textarea id="inputText" name="inputText" rows="10" cols="50">one&#13;&#10;two&#13;&#10;three</textarea>
   </div>
   <div>
     <h2>Panel</h2>
@@ -26,6 +26,9 @@
     <button onclick="textProcessor.processText(linesZip, 'Enter Delimiter')" onmouseover="textProcessor.describe('linesZip');">Zip Lines</button>
     <h2>Python</h2>
     <button onclick="textProcessor.processText(linesToSelfAttributes)" onmouseover="textProcessor.describe('linesToSelfAttributes');">Attributes To Self</button>
+    <h3>Literals</h3>
+    <button onclick="textProcessor.processText(linesToPythonLiteralList)" onmouseover="textProcessor.describe('linesToPythonLiteralList');">List</button>
+    
   </div>
 
   <div id="function_description_div">
@@ -144,6 +147,12 @@
                            "description": "Convert lines to Python class self.x = x definition.",
                            "exampleInput": "one\ntwo\nthree",
                            "exampleOutput": "self.one = one\nself.two = two\nself.three = three"
+                       },
+                       "linesToPythonLiteralList": {
+                           "title": "Lines To Python Literal List",
+                           "description": "Convert lines to Python list definition",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": '["one",\n"two",\n"three"]'
                        },
                    }
       };
