@@ -28,6 +28,7 @@
     <button onclick="textProcessor.processText(linesToSelfAttributes)" onmouseover="textProcessor.describe('linesToSelfAttributes');">Attributes To Self</button>
     <h3>Literals</h3>
     <button onclick="textProcessor.processText(linesToPythonLiteralList)" onmouseover="textProcessor.describe('linesToPythonLiteralList');">List</button>
+    <button onclick="textProcessor.processText(linesToPythonLiteralTuple)" onmouseover="textProcessor.describe('linesToPythonLiteralTuple');">Tuple</button>
     
   </div>
 
@@ -153,6 +154,12 @@
                            "description": "Convert lines to Python list definition",
                            "exampleInput": "one\ntwo\nthree",
                            "exampleOutput": '["one",\n"two",\n"three"]'
+                       },
+                       "linesToPythonLiteralTuple": {
+                           "title": "Lines To Python Literal Tuple",
+                           "description": "Convert lines to Python tuple definition",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": '("one",\n"two",\n"three")'
                        },
                    }
       };
