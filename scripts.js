@@ -35,3 +35,7 @@ function linesToSelfAttributes(text) {return text.split("\n").map(x => `self.${x
 function linesToPythonLiteralList(text) {return '[' + text.split("\n").map(x => `"${x}"`).join(",\n") + ']'};
 
 function linesToPythonLiteralTuple(text) {return linesToPythonLiteralList(text).replace('[', '(').replace(']', ')')};
+
+// Cases
+function upperCase(text) {return text.toUpperCase()};
+function lowerCase(text) {return text.toLowerCase()};
