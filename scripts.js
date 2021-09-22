@@ -3,7 +3,7 @@ function rowToLines(text) {
 };
 
 function linesToRow(text) {
-    return text.split("\n").join(",");
+    return text.split("\n").map(x => x.replace(',', '')).join(", ");
 };
 
 function linesEqualSelf(text) {
