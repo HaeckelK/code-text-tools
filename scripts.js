@@ -3,6 +3,9 @@ function rowToLines(text) {
 };
 
 function linesToRow(text) {
+    if (text.split("\n").length == 1) {
+        return text;
+    }
     return text.split("\n").map(x => x.replace(',', '')).join(", ");
 };
 
