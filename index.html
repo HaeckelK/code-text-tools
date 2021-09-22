@@ -32,7 +32,8 @@
     <h3>Literals</h3>
     <button onclick="textProcessor.processText(linesToPythonLiteralList)" onmouseover="textProcessor.describe('linesToPythonLiteralList');">List</button>
     <button onclick="textProcessor.processText(linesToPythonLiteralTuple)" onmouseover="textProcessor.describe('linesToPythonLiteralTuple');">Tuple</button>
-    
+    <h3>Deconstructors</h3>
+    <button onclick="textProcessor.processText(deconstructFunctionArgs)" onmouseover="textProcessor.describe('deconstructFunctionArgs');">Function Args</button>
   </div>
 
   <div id="function_description_div">
@@ -174,6 +175,12 @@
                            "title": "To Lower Case",
                            "description": "Convert all text to lower case.",
                            "exampleInput": "ONE\nTWO\nTHREE",
+                           "exampleOutput": "one\ntwo\nthree"
+                       },
+                       "deconstructFunctionArgs": {
+                           "title": "Python Function Args to Lines",
+                           "description": "Extract variable names from Python function arguments.",
+                           "exampleInput": "(one: str, two: str, three: int)",
                            "exampleOutput": "one\ntwo\nthree"
                        },
                    }

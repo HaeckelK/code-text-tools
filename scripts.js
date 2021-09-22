@@ -42,3 +42,25 @@ function linesToPythonLiteralTuple(text) {return linesToPythonLiteralList(text).
 // Cases
 function upperCase(text) {return text.toUpperCase()};
 function lowerCase(text) {return text.toLowerCase()};
+
+
+// Python Deconstructors
+function deconstructFunctionArgs(text) {
+    text = text.replace(/\(|\)/g, '');
+    let lines = text.split(",");
+
+    let output = [];
+    for (let i=0; i < lines.length; i++){
+        let arg = lines[i].split(":")[0].trim();
+        let type = '';
+        if (lines[i].split(":").length > 1) {
+            type = lines[i].split(":")[1].trim();
+        }
+        
+        output.push({name: arg,
+                     type: type})
+    }
+    // TODO split on defaults
+    // return JSON.stringify(output)
+    return output.map(x => x.name).join("\n");
+};
