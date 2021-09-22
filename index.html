@@ -24,12 +24,16 @@
     <button onclick="textProcessor.processText(linesPrefix, 'Enter Prefix')" onmouseover="textProcessor.describe('linesPrefix');">Prefix</button>
     <button onclick="textProcessor.processText(linesSuffix, 'Enter Suffix')" onmouseover="textProcessor.describe('linesSuffix');">Suffix</button>
     <button onclick="textProcessor.processText(linesZip, 'Enter Delimiter')" onmouseover="textProcessor.describe('linesZip');">Zip Lines</button>
+    <h3>Cases</h3>
+    <button onclick="textProcessor.processText(upperCase)" onmouseover="textProcessor.describe('upperCase');">Upper</button>
+    <button onclick="textProcessor.processText(lowerCase)" onmouseover="textProcessor.describe('lowerCase');">Lower</button>
     <h2>Python</h2>
     <button onclick="textProcessor.processText(linesToSelfAttributes)" onmouseover="textProcessor.describe('linesToSelfAttributes');">Attributes To Self</button>
     <h3>Literals</h3>
     <button onclick="textProcessor.processText(linesToPythonLiteralList)" onmouseover="textProcessor.describe('linesToPythonLiteralList');">List</button>
     <button onclick="textProcessor.processText(linesToPythonLiteralTuple)" onmouseover="textProcessor.describe('linesToPythonLiteralTuple');">Tuple</button>
-    
+    <h3>Deconstructors</h3>
+    <button onclick="textProcessor.processText(deconstructFunctionArgs)" onmouseover="textProcessor.describe('deconstructFunctionArgs');">Function Args</button>
   </div>
 
   <div id="function_description_div">
@@ -151,15 +155,33 @@
                        },
                        "linesToPythonLiteralList": {
                            "title": "Lines To Python Literal List",
-                           "description": "Convert lines to Python list definition",
+                           "description": "Convert lines to Python list definition.",
                            "exampleInput": "one\ntwo\nthree",
                            "exampleOutput": '["one",\n"two",\n"three"]'
                        },
                        "linesToPythonLiteralTuple": {
                            "title": "Lines To Python Literal Tuple",
-                           "description": "Convert lines to Python tuple definition",
+                           "description": "Convert lines to Python tuple definition.",
                            "exampleInput": "one\ntwo\nthree",
                            "exampleOutput": '("one",\n"two",\n"three")'
+                       },
+                       "upperCase": {
+                           "title": "To Upper Case",
+                           "description": "Convert all text to upper case.",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "ONE\nTWO\nTHREE"
+                       },
+                       "lowerCase": {
+                           "title": "To Lower Case",
+                           "description": "Convert all text to lower case.",
+                           "exampleInput": "ONE\nTWO\nTHREE",
+                           "exampleOutput": "one\ntwo\nthree"
+                       },
+                       "deconstructFunctionArgs": {
+                           "title": "Python Function Args to Lines",
+                           "description": "Extract variable names from Python function arguments.",
+                           "exampleInput": "(one: str, two: str, three: int)",
+                           "exampleOutput": "one\ntwo\nthree"
                        },
                    }
       };
