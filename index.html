@@ -24,6 +24,7 @@
     <button onclick="textProcessor.processText(linesPrefix, 'Enter Prefix')" onmouseover="textProcessor.describe('linesPrefix');">Prefix</button>
     <button onclick="textProcessor.processText(linesSuffix, 'Enter Suffix')" onmouseover="textProcessor.describe('linesSuffix');">Suffix</button>
     <button onclick="textProcessor.processText(linesZip, 'Enter Delimiter')" onmouseover="textProcessor.describe('linesZip');">Zip Lines</button>
+    <button onclick="textProcessor.processText(mask, 'Enter Mask')" onmouseover="textProcessor.describe('mask');">Mask Lines</button>
     <h3>Cases</h3>
     <button onclick="textProcessor.processText(upperCase)" onmouseover="textProcessor.describe('upperCase');">Upper</button>
     <button onclick="textProcessor.processText(lowerCase)" onmouseover="textProcessor.describe('lowerCase');">Lower</button>
@@ -182,6 +183,12 @@
                            "description": "Extract variable names from Python function arguments.",
                            "exampleInput": "(one: str, two: str, three: int)",
                            "exampleOutput": "one\ntwo\nthree"
+                       },
+                       "mask": {
+                           "title": "Mask Lines",
+                           "description": "Insert line values into user defined mask. Use @ to indicate insertion of variable. e.g. for mask @ = os.environ['@']",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": 'one = os.environ["one"]\ntwo = os.environ["two"]\nthree = os.environ["three"]'
                        },
                    }
       };

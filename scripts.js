@@ -64,3 +64,13 @@ function deconstructFunctionArgs(text) {
     // return JSON.stringify(output)
     return output.map(x => x.name).join("\n");
 };
+
+// Masks
+function mask(text, mask) {
+    let lines = text.split("\n");
+    let output = [];
+    for (let i = 0; i < lines.length; i++){
+        output.push(mask.replace(/@/g, lines[i]));
+    };
+    return output.join("\n");
+};
