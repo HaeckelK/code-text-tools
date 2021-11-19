@@ -121,7 +121,7 @@ def cli() -> Dict[str, Any]:
 
 if __name__ == '__main__':
     args = cli()
-    main(${this.arguments.map(x => `${x.variableName}=args.${x.variableName}`).join(", ")})
+    main(${this.arguments.map(x => `${x.variableName}=args["${x.variableName}"]`).join(", ")})
           `;
           return output
         }
