@@ -1,0 +1,132 @@
+<html>
+<head>
+  <title>Python Argparse Generator</title>
+  <script src="https://unpkg.com/vue"></script>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<div id="app">
+  <header>
+    <div class="navbar navbar-default">
+      <div class="navbar-header">
+        <h1>{{ sitename }}</h1>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="panel panel-info">
+            <div class="panel-heading">Python Argparse Generator</div>
+            <div class="panel-body">
+              <div class="panel panel-default">
+                <div class="panel-body">Generate a Python Argparse CLI function.
+                  Add arguments in format name,type,default.
+                </div>
+              </div>
+              <textarea style="margin: 0px; width: 300px; height: 200px;" v-model="specification.rawArguments"></textarea>
+              <div class="form-group">
+                <div class="col-md-12 verify">
+                  <strong>Python Argparse</strong>
+                    <pre>{{ argparse }}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>
+    <script type="text/javascript">
+    var webstore = new Vue({
+      el: '#app',
+      data: {
+        sitename: "Code Text Tools",
+        specification: {
+          rawArguments: 'filename,str,/data/file.csv\nlimit,int,10\n--overwrite,bool,true\n--delay,int'
+        }
+      },
+      methods: {
+        argumentToText(argument) {
+          switch (argument.type) {
+              case "bool":
+                return `parser.add_argument("${argument.name}", action="store_${argument.default}")`;
+                break;
+              default:
+                if (argument.default === undefined) {
+                  return `parser.add_argument("${argument.name}", type=${argument.type})`;
+                } else {
+                  return `parser.add_argument("${argument.name}", type=${argument.type}, default=${argument.defaultDisplay})`;
+                }
+              }
+        },
+        parseRawArgument(rawArgument) {
+          let items = rawArgument.split(",").filter(e =>  e).map(x => x.trim());
+          let name = items[0];
+          let type = items[1] || "str";
+          let value = items[2];
+          let defaultDisplay;
+          let variableName = name.replace(/-/g, '');
+
+          if (type === "str") {
+            defaultDisplay = `"${value}"`;
+          } else {
+            defaultDisplay = value;
+          }
+
+          return {"name": name,
+                  "variableName": variableName,
+                  "type": type,
+                  "default": value,
+                  "defaultDisplay": defaultDisplay};
+        }
+      },
+      computed: {
+        arguments() {
+          if (this.specification.rawArguments === "") {
+            return [];
+          }
+          let x = this.specification.rawArguments.split("\n").filter(e =>  e).map(x => this.parseRawArgument(x));
+          return x;
+        },
+        argparse() {
+          let argumentsText = this.arguments.map(x => this.argumentToText(x));
+
+          // TODO don't bother type casting strings
+          let returnText = this.arguments.map(x => `"${x.variableName}": ${x.type}(args.${x.variableName}),`);
+
+          let mainParameters = this.arguments.map(x => `${x.variableName}: ${x.type}`);
+
+          let output = `import argparse
+from typing import Dict, Any
+
+
+def main(${mainParameters.join(", ")}) -> None:
+    # Contents of main
+    return
+
+
+def cli() -> Dict[str, Any]:
+    formatter_class = argparse.ArgumentDefaultsHelpFormatter
+    parser = argparse.ArgumentParser(formatter_class=formatter_class)
+
+    ${argumentsText.join("\n    ")}
+
+    args = parser.parse_args()
+
+    return {${returnText.join("\n            ").slice(0, -1)}}
+
+
+if __name__ == '__main__':
+    args = cli()
+    main(${this.arguments.map(x => `${x.variableName}=args.${x.variableName}`).join(", ")})
+          `;
+          return output
+        }
+      }
+    });
+    </script>
+  </body>
+</html>
