@@ -94,8 +94,13 @@
         argparse() {
           let argumentsText = this.arguments.map(x => this.argumentToText(x));
 
-          // TODO don't bother type casting strings
-          let returnText = this.arguments.map(x => `"${x.variableName}": ${x.type}(args.${x.variableName}),`);
+          let returnText = this.arguments.map(x => {
+            if (x.type === 'str') {
+              return `"${x.variableName}": args.${x.variableName},`;
+            } else {
+              return `"${x.variableName}": ${x.type}(args.${x.variableName}),`;
+            }
+          });
 
           let mainParameters = this.arguments.map(x => `${x.variableName}: ${x.type}`);
 
