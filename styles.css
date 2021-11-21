@@ -1,4 +1,4 @@
-body {
+html {
     background-color:#002240;
     color: #ccc;
     font-family: fira code,monospace;
@@ -18,14 +18,6 @@ button {
     border-width: 2px;
     border-style: solid;
 }
-button:hover {
-    background: #356c79;
-    border-color: #ec955b;
-}
-a {
-    font-size: 15px;
-    color: #ffee80;
-}
-a:hover {
-    color: #E4C3AD;
+footer{
+    padding: 2rem 1rem 2rem !important;
 }
