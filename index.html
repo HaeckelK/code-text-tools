@@ -4,53 +4,146 @@
   <meta charset="utf-8">
   <title>Code Text Tools</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <link rel="stylesheet" href="styles.css">
   <script src="scripts.js"></script>
 </head>
 <body>
-  <div>
-    <a href="/generator.html">Python SQL</a>
-    <a href="/argparse.html">Python Argparse</a>
-  </div>
-  <h1>Code Text Tools</h1>
-  <div>
-    <textarea id="inputText" name="inputText" rows="10" cols="50">one&#13;&#10;two&#13;&#10;three</textarea>
-  </div>
-  <div>
-    <h2>Panel</h2>
-    <button onclick="textProcessor.undo()" onmouseover="textProcessor.describe('undo');">Undo</button>
-    <button onclick="textProcessor.clearText()" onmouseover="textProcessor.describe('clearText');">Clear Text</button>
-    <h2>Actions</h2>
-    <button onclick="textProcessor.processText(rowToLines)" onmouseover="textProcessor.describe('rowToLines');">Row To Lines</button>
-    <button onclick="textProcessor.processText(linesToRow)" onmouseover="textProcessor.describe('linesToRow');">Lines To Row</button>
-    <button onclick="textProcessor.processText(linesTrim)" onmouseover="textProcessor.describe('linesTrim');">Lines Trim</button>
-    <button onclick="textProcessor.processText(linesEqualSelf)" onmouseover="textProcessor.describe('linesEqualSelf');">Lines Equal Self</button>
-    <button onclick="textProcessor.processText(linesPrefix, 'Enter Prefix')" onmouseover="textProcessor.describe('linesPrefix');">Prefix</button>
-    <button onclick="textProcessor.processText(linesSuffix, 'Enter Suffix')" onmouseover="textProcessor.describe('linesSuffix');">Suffix</button>
-    <button onclick="textProcessor.processText(linesZip, 'Enter Delimiter')" onmouseover="textProcessor.describe('linesZip');">Zip Lines</button>
-    <button onclick="textProcessor.processText(mask, 'Enter Mask')" onmouseover="textProcessor.describe('mask');">Mask Lines</button>
-    <h3>Cases</h3>
-    <button onclick="textProcessor.processText(upperCase)" onmouseover="textProcessor.describe('upperCase');">Upper</button>
-    <button onclick="textProcessor.processText(lowerCase)" onmouseover="textProcessor.describe('lowerCase');">Lower</button>
-    <h2>Python</h2>
-    <button onclick="textProcessor.processText(linesToSelfAttributes)" onmouseover="textProcessor.describe('linesToSelfAttributes');">Attributes To Self</button>
-    <h3>Literals</h3>
-    <button onclick="textProcessor.processText(linesToPythonLiteralList)" onmouseover="textProcessor.describe('linesToPythonLiteralList');">List</button>
-    <button onclick="textProcessor.processText(linesToPythonLiteralTuple)" onmouseover="textProcessor.describe('linesToPythonLiteralTuple');">Tuple</button>
-    <h3>Deconstructors</h3>
-    <button onclick="textProcessor.processText(deconstructFunctionArgs)" onmouseover="textProcessor.describe('deconstructFunctionArgs');">Function Args</button>
-  </div>
-
-  <div id="function_description_div">
-    <h3 id="function_title"></h3>
-    <p id="function_description"></p>
-    <div>
-      <p>Example Input</p>
-      <textarea id="example_input" rows="6" readonly></textarea>
-      <p>Example Output</p>
-      <textarea id="example_output" rows="6" readonly></textarea>
+  <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color:#011629;">  
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            <h1><strong>My Code Buddy</strong></h1>
+          </a>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        <a class="navbar-item" href="/">
+          Home
+        </a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Python Generators
+          </a>
+  
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/generator.html">
+              SQL
+            </a>
+            <a class="navbar-item" href="/argparse.html">
+              Argparse
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main>
+  <div class="columns">
+    <div class="column">
+      <div class="section">
+        <textarea id="inputText" name="inputText" rows="10" cols="50">one&#13;&#10;two&#13;&#10;three</textarea>
+      </div>
+    </div>
+    <div class="column">
+      <div class="section">
+        <h2>Panel</h2>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.undo()" onmouseover="textProcessor.describe('undo');">Undo</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.clearText()" onmouseover="textProcessor.describe('clearText');">Clear Text</button>
+          </p>
+        </div>
+        <h2>Actions</h2>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(rowToLines)" onmouseover="textProcessor.describe('rowToLines');">Row To Lines</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesToRow)" onmouseover="textProcessor.describe('linesToRow');">Lines To Row</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesTrim)" onmouseover="textProcessor.describe('linesTrim');">Lines Trim</button>
+          </p>
+        </div>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesEqualSelf)" onmouseover="textProcessor.describe('linesEqualSelf');">Lines Equal Self</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesPrefix, 'Enter Prefix')" onmouseover="textProcessor.describe('linesPrefix');">Prefix</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesSuffix, 'Enter Suffix')" onmouseover="textProcessor.describe('linesSuffix');">Suffix</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesZip, 'Enter Delimiter')" onmouseover="textProcessor.describe('linesZip');">Zip Lines</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(mask, 'Enter Mask')" onmouseover="textProcessor.describe('mask');">Mask Lines</button>
+          </p>
+        </div>
+        <h3>Cases</h3>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(upperCase)" onmouseover="textProcessor.describe('upperCase');">Upper</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(lowerCase)" onmouseover="textProcessor.describe('lowerCase');">Lower</button>
+          </p>
+        </div>
+        <h2>Python</h2>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesToSelfAttributes)" onmouseover="textProcessor.describe('linesToSelfAttributes');">Attributes To Self</button>
+          </p>
+        </div>
+        <h3>Literals</h3>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesToPythonLiteralList)" onmouseover="textProcessor.describe('linesToPythonLiteralList');">List</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesToPythonLiteralTuple)" onmouseover="textProcessor.describe('linesToPythonLiteralTuple');">Tuple</button>
+          </p>
+        </div>
+        <h3>Deconstructors</h3>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(deconstructFunctionArgs)" onmouseover="textProcessor.describe('deconstructFunctionArgs');">Function Args</button>
+          </p> 
+        </div>
+        </div>
+    </div>
+    <div class="column">
+      <div id="function_description_div" class="section">
+        <h3 id="function_title"></h3>
+        <p id="function_description"></p>
+        <div>
+          <p>Example Input</p>
+          <textarea id="example_input" rows="6" readonly></textarea>
+          <p>Example Output</p>
+          <textarea id="example_output" rows="6" readonly></textarea>
+        </div>
+      </div>
     </div>
   </div>
+  </main>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>My Code Buddy</strong> by <a href="https://github.com/HaeckelK/code-text-tools">HaeckelK</a>. The source code is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+      </p>
+    </div>
+  </footer>
 
   <script>
       let textProcessor = {
