@@ -133,7 +133,7 @@
             let output = `with cursor as c:
     c.execute("""INSERT INTO ${this.specification.tableName} (${this.fieldsText}) VALUES (${this.valueMarkers})
         ON CONFLICT (${this.idFieldsText})
-        DO UPDATE (${updateFields.join(", ")}) = (${updateFields.map(x => `EXCLUDED.${x}`).join(", ")});""",
+        DO UPDATE SET (${updateFields.join(", ")}) = (${updateFields.map(x => `EXCLUDED.${x}`).join(", ")});""",
         (${this.valuesSource.join(", ")}))`;
             return output;
         }
