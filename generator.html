@@ -51,6 +51,10 @@
                     <strong>ID Fields:</strong>
                     <input v-model="specification.idFields" class="form-control" />
                   </div>
+                  <div class="col-md-6">
+                    <strong>Source Object:</strong>
+                    <input v-model.trim="specification.sourceObjectName" class="form-control" />
+                  </div>
                 </div>
                 <div class="form-group">
                   <div class="col-md-12"><strong>Fields:</strong></div>
@@ -87,6 +91,7 @@
         dataSources: ["dictionary", "dataclass"],
         specification: {
           tableName: 'example',
+          sourceObjectName: 'item',
           idFields: 'one',
           fields: 'one,two,three',
           databaseType: 'PostgreSQL',
@@ -112,12 +117,13 @@
             return this.idFields.join(", ");
         },
         valuesSource() {
+          let sourceObjectName = this.specification.sourceObjectName;
             switch(this.specification.dataSource) {
                 case "dictionary":
-                    return this.fields.map(x => `source["${x}"]` );
+                    return this.fields.map(x => `${sourceObjectName}["${x}"]` );
                     break;
                 case "dataclass":
-                    return this.fields.map(x => `source.${x}` );
+                    return this.fields.map(x => `${sourceObjectName}.${x}` );
                     break;
                 default:
                     return [];
