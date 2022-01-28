@@ -95,10 +95,12 @@
       },
       computed: {
         fields() {
-            return this.specification.fields.trim().split(",");
+            fields = this.specification.fields.split(",");
+            return fields.map(x => x.trim());
         },
         idFields() {
-            return this.specification.idFields.trim().split(",");
+            fields = this.specification.idFields.trim().split(",");
+            return fields.map(x => x.trim());
         },
         valueMarkers() {
             return "%s,".repeat(this.fields.length).slice(0, -1);
