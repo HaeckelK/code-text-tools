@@ -1,27 +1,27 @@
-function rowToLines(text) {
+function rowToLines(text: string): string {
     return text.split(",").join("\n");
 };
 
-function linesToRow(text) {
+function linesToRow(text: string): string {
     if (text.split("\n").length == 1) {
         return text;
     }
     return text.split("\n").map(x => x.replace(',', '')).join(", ");
 };
 
-function linesEqualSelf(text) {
+function linesEqualSelf(text: string): string {
     return text.split("\n").map(x => x + '=' + x).join("\n");
 };
 
-function linesPrefix(text, prefix='') {
+function linesPrefix(text: string, prefix=''): string {
     return text.split("\n").map(x => prefix + x).join("\n");
 };
 
-function linesSuffix(text, suffix='') {
+function linesSuffix(text: string, suffix=''): string {
     return text.split("\n").map(x => x + suffix).join("\n");
 };
 
-function linesZip(text, delim='') {
+function linesZip(text: string, delim=''): string {
     let clean = [];
     let lines = text.split("\n");
     let mid = Math.floor(lines.length / 2);
@@ -31,21 +31,21 @@ function linesZip(text, delim='') {
     return clean.join("\n");
 };
 
-function linesTrim(text) { return text.split("\n").map(x => x.trim()).join("\n")};
+function linesTrim(text: string): string { return text.split("\n").map(x => x.trim()).join("\n")};
 
-function linesToSelfAttributes(text) {return text.split("\n").map(x => `self.${x} = ${x}`).join("\n")};
+function linesToSelfAttributes(text: string): string {return text.split("\n").map(x => `self.${x} = ${x}`).join("\n")};
 
-function linesToPythonLiteralList(text) {return '[' + text.split("\n").map(x => `"${x}"`).join(",\n") + ']'};
+function linesToPythonLiteralList(text: string): string {return '[' + text.split("\n").map(x => `"${x}"`).join(",\n") + ']'};
 
-function linesToPythonLiteralTuple(text) {return linesToPythonLiteralList(text).replace('[', '(').replace(']', ')')};
+function linesToPythonLiteralTuple(text: string): string {return linesToPythonLiteralList(text).replace('[', '(').replace(']', ')')};
 
 // Cases
-function upperCase(text) {return text.toUpperCase()};
-function lowerCase(text) {return text.toLowerCase()};
+function upperCase(text: string): string {return text.toUpperCase()};
+function lowerCase(text: string): string {return text.toLowerCase()};
 
 
 // Python Deconstructors
-function deconstructFunctionArgs(text) {
+function deconstructFunctionArgs(text: string): string {
     text = text.replace(/\(|\)/g, '');
     let lines = text.split(",");
 
@@ -66,7 +66,7 @@ function deconstructFunctionArgs(text) {
 };
 
 // Masks
-function mask(text, mask) {
+function mask(text: string, mask: string): string {
     let lines = text.split("\n");
     let output = [];
     for (let i = 0; i < lines.length; i++){
