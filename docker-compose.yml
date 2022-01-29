@@ -5,3 +5,4 @@ services:
     tty: true
     volumes:
       - .:/usr/app
+      - /usr/app/node_modules
