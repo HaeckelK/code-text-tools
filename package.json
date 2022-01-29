@@ -4,7 +4,8 @@
   "description": "Static site for manipulating text to help with writing code.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/HaeckelK/code-text-tools/issues"
   },
-  "homepage": "https://github.com/HaeckelK/code-text-tools#readme"
+  "homepage": "https://github.com/HaeckelK/code-text-tools#readme",
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  }
 }
