@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Code Text Tools</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="scripts.js"></script>
+</head>
+<body>
+  <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color:#011629;">  
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            <h1><strong>My Code Buddy</strong></h1>
+          </a>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        <a class="navbar-item" href="/">
+          Home
+        </a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Python Generators
+          </a>
+  
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/generator.html">
+              SQL
+            </a>
+            <a class="navbar-item" href="/argparse.html">
+              Argparse
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main>
+  <div class="columns">
+    <div class="column">
+      <div class="section">
+        <textarea id="inputText" name="inputText" rows="10" cols="50">one&#13;&#10;two&#13;&#10;three</textarea>
+      </div>
+    </div>
+    <div class="column">
+      <div class="section">
+        <h2>Panel</h2>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.undo()" onmouseover="textProcessor.describe('undo');">Undo</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.clearText()" onmouseover="textProcessor.describe('clearText');">Clear Text</button>
+          </p>
+        </div>
+        <h2>Actions</h2>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(rowToLines)" onmouseover="textProcessor.describe('rowToLines');">Row To Lines</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesToRow)" onmouseover="textProcessor.describe('linesToRow');">Lines To Row</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesTrim)" onmouseover="textProcessor.describe('linesTrim');">Lines Trim</button>
+          </p>
+        </div>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesEqualSelf)" onmouseover="textProcessor.describe('linesEqualSelf');">Lines Equal Self</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesPrefix, 'Enter Prefix')" onmouseover="textProcessor.describe('linesPrefix');">Prefix</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesSuffix, 'Enter Suffix')" onmouseover="textProcessor.describe('linesSuffix');">Suffix</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesZip, 'Enter Delimiter')" onmouseover="textProcessor.describe('linesZip');">Zip Lines</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(mask, 'Enter Mask')" onmouseover="textProcessor.describe('mask');">Mask Lines</button>
+          </p>
+        </div>
+        <h3>Cases</h3>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(upperCase)" onmouseover="textProcessor.describe('upperCase');">Upper</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(lowerCase)" onmouseover="textProcessor.describe('lowerCase');">Lower</button>
+          </p>
+        </div>
+        <h2>Python</h2>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesToSelfAttributes)" onmouseover="textProcessor.describe('linesToSelfAttributes');">Attributes To Self</button>
+          </p>
+        </div>
+        <h3>Literals</h3>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesToPythonLiteralList)" onmouseover="textProcessor.describe('linesToPythonLiteralList');">List</button>
+          </p>
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(linesToPythonLiteralTuple)" onmouseover="textProcessor.describe('linesToPythonLiteralTuple');">Tuple</button>
+          </p>
+        </div>
+        <h3>Deconstructors</h3>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-info is-small" onclick="textProcessor.processText(deconstructFunctionArgs)" onmouseover="textProcessor.describe('deconstructFunctionArgs');">Function Args</button>
+          </p> 
+        </div>
+        </div>
+    </div>
+    <div class="column">
+      <div id="function_description_div" class="section">
+        <h3 id="function_title"></h3>
+        <p id="function_description"></p>
+        <div>
+          <p>Example Input</p>
+          <textarea id="example_input" rows="6" readonly></textarea>
+          <p>Example Output</p>
+          <textarea id="example_output" rows="6" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  </main>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>My Code Buddy</strong> by <a href="https://github.com/HaeckelK/code-text-tools">HaeckelK</a>. The source code is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+      let textProcessor = {
+        memory: [],
+        actions: [],
+        userArgs: {},
+        processText: function(func, parameterMessage) {
+          this.actions.push(func.name);
+
+          let rawText = document.getElementById("inputText").value;
+          console.log(`Fetching data from text area: ${rawText}`);
+          
+          console.log(`Running called function ${func.name}`);
+
+          let cleanText;
+          if (parameterMessage) {
+            let arg = prompt(parameterMessage, this.userArgs[func.name] || '');
+            cleanText = func(rawText, arg || '');
+            if (arg) {
+              this.userArgs[func.name] = arg;
+            }
+          } else {
+            cleanText = func(rawText);
+          };
+
+          console.log("Updating text area");
+          document.getElementById("inputText").value = cleanText || "empty";
+
+          if (this.memory[this.memory.length - 1] !== rawText){
+            this.memory.push(rawText);
+          }
+          console.log(this.memory);
+        },
+        undo: function() {
+          if (this.memory.length > 0) {
+            document.getElementById("inputText").value = this.memory.pop() || "";
+          };
+          console.log(this.memory);
+        },
+        clearText: function() {
+          document.getElementById("inputText").value = '';
+        },
+        describe: function(funcName) {
+          document.getElementById("function_title").innerText = this.descriptions[funcName].title;
+          document.getElementById("function_description").innerText = this.descriptions[funcName].description;
+          document.getElementById("example_input").value = this.descriptions[funcName].exampleInput || '';
+          document.getElementById("example_output").value = this.descriptions[funcName].exampleOutput || '';
+        },
+        descriptions: {
+                       "clearText": {
+                           "title": "Clear Text",
+                           "description": "Clear contents of text area. Retains history - accessed via Undo function.",
+                           "exampleInput": "one,two,three",
+                           "exampleOutput": ""
+                       },
+                       "undo": {
+                           "title": "Undo",
+                           "description": "Set text area to the value it had before most recent function was run."
+                       },
+                       "rowToLines": {
+                           "title": "Row To Lines",
+                           "description": "Convert comma separated row to newline separated lines.",
+                           "exampleInput": "one,two,three",
+                           "exampleOutput": "one\ntwo\nthree"
+                       },
+                       "linesToRow": {
+                           "title": "Lines To Row",
+                           "description": "Convert newline separated lines to single comma separated row.",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "one,two,three"
+                       },
+                       "linesTrim": {
+                           "title": "Lines Trim",
+                           "description": "Remove surrounding whitespace from each line.",
+                           "exampleInput": "  one  \n two\n   three   ",
+                           "exampleOutput": "one\ntwo\nthree"
+                       },
+                       "linesEqualSelf": {
+                           "title": "Lines Equal Self",
+                           "description": "For each line, duplicate text and separte with equals sign.",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "one=one\ntwo=two\nthree=three"
+                       },
+                       "linesPrefix": {
+                           "title": "Prefix",
+                           "description": "Add prefix to each line in text area.",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "data[\"one\ndata[\"two\ndata[\"three"
+                       },
+                       "linesSuffix": {
+                           "title": "Suffix",
+                           "description": "Add suffix to each line in text area.",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "one\"]\ntwo\"]\nthree\"]"
+                       },
+                       "linesZip": {
+                           "title": "Zip Lines",
+                           "description": "Create lines by combining top half of lines with botton half, separated by user specified delimiter.",
+                           "exampleInput": "one\ntwo\nthree\nfour",
+                           "exampleOutput": "one=three\ntwo=four"
+                       },
+                       "linesToSelfAttributes": {
+                           "title": "Attributes To Self",
+                           "description": "Convert lines to Python class self.x = x definition.",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "self.one = one\nself.two = two\nself.three = three"
+                       },
+                       "linesToPythonLiteralList": {
+                           "title": "Lines To Python Literal List",
+                           "description": "Convert lines to Python list definition.",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": '["one",\n"two",\n"three"]'
+                       },
+                       "linesToPythonLiteralTuple": {
+                           "title": "Lines To Python Literal Tuple",
+                           "description": "Convert lines to Python tuple definition.",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": '("one",\n"two",\n"three")'
+                       },
+                       "upperCase": {
+                           "title": "To Upper Case",
+                           "description": "Convert all text to upper case.",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": "ONE\nTWO\nTHREE"
+                       },
+                       "lowerCase": {
+                           "title": "To Lower Case",
+                           "description": "Convert all text to lower case.",
+                           "exampleInput": "ONE\nTWO\nTHREE",
+                           "exampleOutput": "one\ntwo\nthree"
+                       },
+                       "deconstructFunctionArgs": {
+                           "title": "Python Function Args to Lines",
+                           "description": "Extract variable names from Python function arguments.",
+                           "exampleInput": "(one: str, two: str, three: int)",
+                           "exampleOutput": "one\ntwo\nthree"
+                       },
+                       "mask": {
+                           "title": "Mask Lines",
+                           "description": "Insert line values into user defined mask. Use @ to indicate insertion of variable. e.g. for mask @ = os.environ['@']",
+                           "exampleInput": "one\ntwo\nthree",
+                           "exampleOutput": 'one = os.environ["one"]\ntwo = os.environ["two"]\nthree = os.environ["three"]'
+                       },
+                   }
+      };
+  </script>
+</body>
+</html>
