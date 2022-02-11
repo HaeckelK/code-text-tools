@@ -2,7 +2,9 @@
 
 <head>
   <title>Python Argparse Generator</title>
+  <script>var exports={};</script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/python-argparse-generator@latest/lib/index.js"></script>
   <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -51,19 +53,6 @@
       }
     },
     methods: {
-      argumentToText(argument) {
-        switch (argument.type) {
-          case "bool":
-            return `parser.add_argument("${argument.name}", action="store_${argument.default}")`;
-            break;
-          default:
-            if (argument.default === undefined) {
-              return `parser.add_argument("${argument.name}", type=${argument.type})`;
-            } else {
-              return `parser.add_argument("${argument.name}", type=${argument.type}, default=${argument.defaultDisplay})`;
-            }
-        }
-      },
       parseRawArgument(rawArgument) {
         let items = rawArgument.split(",").filter(e => e).map(x => x.trim());
         let name = items[0];
@@ -96,43 +85,7 @@
         return x;
       },
       argparse() {
-        let argumentsText = this.arguments.map(x => this.argumentToText(x));
-
-        let returnText = this.arguments.map(x => {
-          if (x.type === 'str') {
-            return `"${x.variableName}": args.${x.variableName},`;
-          } else {
-            return `"${x.variableName}": ${x.type}(args.${x.variableName}),`;
-          }
-        });
-
-        let mainParameters = this.arguments.map(x => `${x.variableName}: ${x.type}`);
-
-        let output = `import argparse
-from typing import Dict, Any
-
-
-def main(${mainParameters.join(", ")}) -> None:
-    # Contents of main
-    return
-
-
-def cli() -> Dict[str, Any]:
-    formatter_class = argparse.ArgumentDefaultsHelpFormatter
-    parser = argparse.ArgumentParser(formatter_class=formatter_class)
-
-    ${argumentsText.join("\n    ")}
-
-    args = parser.parse_args()
-
-    return {${returnText.join("\n            ").slice(0, -1)}}
-
-
-if __name__ == '__main__':
-    args = cli()
-    main(${this.arguments.map(x => `${x.variableName}=args["${x.variableName}"]`).join(", ")})
-          `;
-        return output
+        return GenerateCode(this.arguments);
       }
     }
   });
