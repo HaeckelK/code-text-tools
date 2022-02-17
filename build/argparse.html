@@ -2,7 +2,7 @@
 
 <head>
   <title>Python Argparse Generator</title>
-  <script>var exports={};</script>
+  <script>var exports = {};</script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/python-argparse-generator@0.2/lib/index.js"></script>
   <link rel="stylesheet" type="text/css" href="styles.css">
@@ -30,15 +30,22 @@
 
             </div>
             <textarea style="margin: 0px; width: 300px; height: 200px;" v-model="specification.rawArguments"></textarea>
-              <div class="col-md-12 verify">
-              <label for="checkbox">Type Hints: </label>
-              <input type="checkbox" id="typeHintsCheckbox" v-model="advancedSettings.typeHints"><br>
-              <label>Parser Variable Name: </label><input v-model="advancedSettings.parserName"><br>
-              <label>Main Function Placeholder: </label><input v-model="advancedSettings.mainContents"><br>
-              <label>Main Function Name: </label><input v-model="advancedSettings.mainName"><br>
-              <label>CLI Function Name: </label><input v-model="advancedSettings.cliName"><br>
-              <label>Argument Return Object Name: </label><input v-model="advancedSettings.argsName"><br>
-          </div>
+            <br>
+            <button type="button" class="btn btn-default" v-on:click="toggleShowAdvancedSettings">
+              <p v-if="showAdvancedSettings">Hide Advanced Settings</p><p v-else>Show Advanced Settings</p>
+            </button>
+            <div class="col-md-12 verify" v-show="showAdvancedSettings">
+              <div id="advancedSettingsArea">
+                <h4>Advanced Settings</h4>
+                <label for="checkbox">Type Hints: </label>
+                <input type="checkbox" id="typeHintsCheckbox" v-model="advancedSettings.typeHints"><br>
+                <label>Parser Variable Name: </label><input v-model="advancedSettings.parserName"><br>
+                <label>Main Function Placeholder: </label><input v-model="advancedSettings.mainContents"><br>
+                <label>Main Function Name: </label><input v-model="advancedSettings.mainName"><br>
+                <label>CLI Function Name: </label><input v-model="advancedSettings.cliName"><br>
+                <label>Argument Return Object Name: </label><input v-model="advancedSettings.argsName"><br>
+              </div>
+            </div>
             <div class="form-group">
               <div class="col-md-12 verify">
                 <strong>Python Argparse</strong>
@@ -68,7 +75,8 @@
         mainName: 'main',
         cliName: 'cli',
         argsName: 'args'
-      }
+      },
+      showAdvancedSettings: false
     },
     methods: {
       parseRawArgument(rawArgument) {
@@ -77,7 +85,10 @@
         let type = items[1] || "str";
         let value = items[2];
         return newArgument(name, type, '', value);
-      }
+      },
+      toggleShowAdvancedSettings() {
+          this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
+        }
     },
     computed: {
       arguments() {
