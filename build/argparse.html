@@ -33,7 +33,11 @@
               <div class="col-md-12 verify">
               <label for="checkbox">Type Hints: </label>
               <input type="checkbox" id="typeHintsCheckbox" v-model="advancedSettings.typeHints"><br>
-              <label>Parser Variable Name: </label><input v-model="advancedSettings.parserName">
+              <label>Parser Variable Name: </label><input v-model="advancedSettings.parserName"><br>
+              <label>Main Function Placeholder: </label><input v-model="advancedSettings.mainContents"><br>
+              <label>Main Function Name: </label><input v-model="advancedSettings.mainName"><br>
+              <label>CLI Function Name: </label><input v-model="advancedSettings.cliName"><br>
+              <label>Argument Return Object Name: </label><input v-model="advancedSettings.argsName"><br>
           </div>
             <div class="form-group">
               <div class="col-md-12 verify">
