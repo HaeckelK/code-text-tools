@@ -2,7 +2,7 @@
 
 <head>
   <title>Python Argparse Generator</title>
-  <script>var exports={};</script>
+  <script>var exports = {};</script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/python-argparse-generator@0.2/lib/index.js"></script>
   <link rel="stylesheet" type="text/css" href="styles.css">
@@ -30,11 +30,22 @@
 
             </div>
             <textarea style="margin: 0px; width: 300px; height: 200px;" v-model="specification.rawArguments"></textarea>
-              <div class="col-md-12 verify">
-              <label for="checkbox">Type Hints</label>
-              <input type="checkbox" id="typeHintsCheckbox" v-model="typeHints"><br>
-              Parser Variable Name: <input v-model="parserName">
-          </div>
+            <br>
+            <button type="button" class="btn btn-default" v-on:click="toggleShowAdvancedSettings">
+              <p v-if="showAdvancedSettings">Hide Advanced Settings</p><p v-else>Show Advanced Settings</p>
+            </button>
+            <div class="col-md-12 verify" v-show="showAdvancedSettings">
+              <div id="advancedSettingsArea">
+                <h4>Advanced Settings</h4>
+                <label for="checkbox">Type Hints: </label>
+                <input type="checkbox" id="typeHintsCheckbox" v-model="advancedSettings.typeHints"><br>
+                <label>Parser Variable Name: </label><input v-model="advancedSettings.parserName"><br>
+                <label>Main Function Placeholder: </label><input v-model="advancedSettings.mainContents"><br>
+                <label>Main Function Name: </label><input v-model="advancedSettings.mainName"><br>
+                <label>CLI Function Name: </label><input v-model="advancedSettings.cliName"><br>
+                <label>Argument Return Object Name: </label><input v-model="advancedSettings.argsName"><br>
+              </div>
+            </div>
             <div class="form-group">
               <div class="col-md-12 verify">
                 <strong>Python Argparse</strong>
@@ -53,12 +64,19 @@
   var webstore = new Vue({
     el: '#app',
     data: {
-      sitename: "Code Text Tools",
+      sitename: "Python Argparse Generator",
       specification: {
         rawArguments: 'filename,str,/data/file.csv\nlimit,int,10\n--overwrite,bool,true\n--delay,int'
       },
-      typeHints: true,
-      parserName: "parser"
+      advancedSettings: {
+        typeHints: true,
+        parserName: 'parser',
+        mainContents: '# Contents of main',
+        mainName: 'main',
+        cliName: 'cli',
+        argsName: 'args'
+      },
+      showAdvancedSettings: false
     },
     methods: {
       parseRawArgument(rawArgument) {
@@ -67,7 +85,10 @@
         let type = items[1] || "str";
         let value = items[2];
         return newArgument(name, type, '', value);
-      }
+      },
+      toggleShowAdvancedSettings() {
+          this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
+        }
     },
     computed: {
       arguments() {
@@ -79,8 +100,13 @@
       },
       argparse() {
         let settings = defaultSettings();
-        settings.typeHints = this.typeHints;
-        settings.parserName = this.parserName;
+
+        settings.typeHints = this.advancedSettings.typeHints;
+        settings.parserName = this.advancedSettings.parserName;
+        settings.mainContents = this.advancedSettings.mainContents;
+        settings.mainName = this.advancedSettings.mainName;
+        settings.cliName = this.advancedSettings.cliName;
+        settings.argsName = this.advancedSettings.argsName;
         return argparseCode(this.arguments, settings);
       }
     }
