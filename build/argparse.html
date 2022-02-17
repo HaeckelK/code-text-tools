@@ -59,7 +59,11 @@
       },
       advancedSettings: {
         typeHints: true,
-        parserName: "parser"
+        parserName: 'parser',
+        mainContents: '# Contents of main',
+        mainName: 'main',
+        cliName: 'cli',
+        argsName: 'args'
       }
     },
     methods: {
@@ -81,8 +85,13 @@
       },
       argparse() {
         let settings = defaultSettings();
+
         settings.typeHints = this.advancedSettings.typeHints;
         settings.parserName = this.advancedSettings.parserName;
+        settings.mainContents = this.advancedSettings.mainContents;
+        settings.mainName = this.advancedSettings.mainName;
+        settings.cliName = this.advancedSettings.cliName;
+        settings.argsName = this.advancedSettings.argsName;
         return argparseCode(this.arguments, settings);
       }
     }
