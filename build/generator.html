@@ -1,18 +1,13 @@
 <html>
 <head>
   <title>Python SQL Generator</title>
+  <script src="components.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <div id="app">
-  <header>
-    <div class="navbar navbar-default">
-      <div class="navbar-header">
-        <h1>{{ sitename }}</h1>
-      </div>
-    </div>
-  </header>
+  <page-banner v-bind:pagename="sitename"></page-banner>
   <main>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -84,8 +79,9 @@
     <script type="text/javascript">
     var webstore = new Vue({
       el: '#app',
+      components: {'page-banner': PageBanner},
       data: {
-        sitename: "Code Text Tools",
+        sitename: "Python SQL Generator",
         showSQL: true,
         databases: ["PostgreSQL", "SQLite"],
         dataSources: ["dictionary", "dataclass"],
