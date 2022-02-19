@@ -2,6 +2,9 @@
 
 <head>
   <title>Python Argparse Generator</title>
+
+  <script src="components.js"></script>
+
   <script>var exports = {};</script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/python-argparse-generator@0.2/lib/index.js"></script>
@@ -10,13 +13,7 @@
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <div id="app">
-  <header>
-    <div class="navbar navbar-default">
-      <div class="navbar-header">
-        <h1>{{ sitename }}</h1>
-      </div>
-    </div>
-  </header>
+  <page-banner v-bind:pagename="sitename"></page-banner>
   <main>
     <div class="row">
       <div class="col-md-10 col-md-offset-1">
@@ -32,7 +29,8 @@
             <textarea style="margin: 0px; width: 300px; height: 200px;" v-model="specification.rawArguments"></textarea>
             <br>
             <button type="button" class="btn btn-default" v-on:click="toggleShowAdvancedSettings">
-              <p v-if="showAdvancedSettings">Hide Advanced Settings</p><p v-else>Show Advanced Settings</p>
+              <p v-if="showAdvancedSettings">Hide Advanced Settings</p>
+              <p v-else>Show Advanced Settings</p>
             </button>
             <div class="col-md-12 verify" v-show="showAdvancedSettings">
               <div id="advancedSettingsArea">
@@ -56,13 +54,12 @@
         </div>
       </div>
     </div>
-</div>
-</main>
-
+  </main>
 </div>
 <script type="text/javascript">
   var webstore = new Vue({
     el: '#app',
+    components: { 'page-banner': PageBanner },
     data: {
       sitename: "Python Argparse Generator",
       specification: {
@@ -87,8 +84,8 @@
         return newArgument(name, type, '', value);
       },
       toggleShowAdvancedSettings() {
-          this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
-        }
+        this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
+      }
     },
     computed: {
       arguments() {
