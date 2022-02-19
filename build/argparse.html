@@ -29,7 +29,8 @@
             <textarea style="margin: 0px; width: 300px; height: 200px;" v-model="specification.rawArguments"></textarea>
             <br>
             <button type="button" class="btn btn-default" v-on:click="toggleShowAdvancedSettings">
-              <p v-if="showAdvancedSettings">Hide Advanced Settings</p><p v-else>Show Advanced Settings</p>
+              <p v-if="showAdvancedSettings">Hide Advanced Settings</p>
+              <p v-else>Show Advanced Settings</p>
             </button>
             <div class="col-md-12 verify" v-show="showAdvancedSettings">
               <div id="advancedSettingsArea">
@@ -53,14 +54,12 @@
         </div>
       </div>
     </div>
-</div>
-</main>
-
+  </main>
 </div>
 <script type="text/javascript">
   var webstore = new Vue({
     el: '#app',
-    components: {'page-banner': PageBanner},
+    components: { 'page-banner': PageBanner },
     data: {
       sitename: "Python Argparse Generator",
       specification: {
@@ -85,8 +84,8 @@
         return newArgument(name, type, '', value);
       },
       toggleShowAdvancedSettings() {
-          this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
-        }
+        this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
+      }
     },
     computed: {
       arguments() {
