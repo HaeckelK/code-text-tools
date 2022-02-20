@@ -102,6 +102,9 @@
       { "id": 4, "name": "--delay", "type": "int", "variableName": "delay", "default": "", "required": false }]
     },
     methods: {
+      flashMessage(message) {
+        console.log(message);
+      },
       parseRawArgument(rawArgument) {
         let items = rawArgument.split(",").filter(e => e).map(x => x.trim());
         let name = items[0];
@@ -114,10 +117,13 @@
       },
       deleteAllArguments() {
         this.exampleArguments = [];
+        this.flashMessage('All arguments deleted');
       },
       deleteArgument(argumentID) {
         const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
+        const argument = this.exampleArguments[index];
         this.exampleArguments.splice(index, 1);
+        this.flashMessage(`Deleted argument ${argument.name}`);
       },
       copyArgument(argumentID) {
         const argument = this.exampleArguments.find(arg => arg.id === argumentID);
@@ -125,6 +131,7 @@
         newArgument.id = this.nextArgumentID;
         this.nextArgumentID++;
         this.exampleArguments.push(newArgument);
+        this.flashMessage(`Copied argument ${argument.name}`);
       },
       moveArgumentUp(argumentID) {
         const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
@@ -154,6 +161,7 @@
                                     "default": argument.default,
                                     "required": argument.required })
         this.nextArgumentID++;
+        this.flashMessage(`Added argument: ${argument.name}`);
       }
     },
     computed: {
