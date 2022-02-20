@@ -34,6 +34,7 @@
               <div v-for="argument in exampleArguments" :key="argument.id">
                 <argument-display v-bind:arg="argument"
                                   @delete-argument="deleteArgument(argument.id)"
+                                  @copy-argument="copyArgument"
                                   @move-up="moveArgumentUp(argument.id)"
                                   @move-down="moveArgumentDown(argument.id)">
                 </argument-display>
@@ -117,6 +118,13 @@
       deleteArgument(argumentID) {
         const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
         this.exampleArguments.splice(index, 1);
+      },
+      copyArgument(argumentID) {
+        const argument = this.exampleArguments.find(arg => arg.id === argumentID);
+        let newArgument = JSON.parse(JSON.stringify(argument));
+        newArgument.id = this.nextArgumentID;
+        this.nextArgumentID++;
+        this.exampleArguments.push(newArgument);
       },
       moveArgumentUp(argumentID) {
         const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);

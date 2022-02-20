@@ -22,6 +22,9 @@ const CLIAgumentDisplay = {
     <button type="button" class="btn btn-secondary" @click="moveDown">
       <span class="glyphicon glyphicon-arrow-down" aria-hidden="false"></span>
     </button>
+    <button type="button" class="btn btn-secondary" @click="copyArgument">
+      <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+    </button>
     <button type="button" class="btn btn-danger" @click="deleteArgument">
       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     </button>
@@ -37,6 +40,9 @@ const CLIAgumentDisplay = {
     },
     moveDown() {
       this.$emit('move-down', this.arg.id);
+    },
+    copyArgument() {
+      this.$emit('copy-argument', this.arg.id);
     }
   }
 };
