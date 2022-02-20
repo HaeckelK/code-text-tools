@@ -36,6 +36,10 @@
                                   @move-down="moveArgumentDown(argument.id)">
                 </argument-display>
               </div>
+              <br>
+              <button class="btn btn-danger"
+                      @click="deleteAllArguments"
+                      v-show="exampleArguments.length > 0">Delete All</button>
             </div>
             <br>
             <button type="button" class="btn btn-default" v-on:click="toggleShowAdvancedSettings">
@@ -102,6 +106,9 @@
       },
       toggleShowAdvancedSettings() {
         this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
+      },
+      deleteAllArguments() {
+        this.exampleArguments = [];
       },
       deleteArgument(argumentID) {
         const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
