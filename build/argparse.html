@@ -30,7 +30,7 @@
             <div id="cliArguments" v-show="showArgumentsList">
               <h3>Arguments:</h3>
               <div v-for="argument in arguments" :key="argument.name">
-                <argument-display v-bind:arg="argument"></argument-display>
+                <argument-display v-bind:arg="argument" @argument-deleted="deleteArgument(argument.name)"></argument-display>
               </div>
             </div>
             <br>
@@ -92,6 +92,9 @@
       },
       toggleShowAdvancedSettings() {
         this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
+      },
+      deleteArgument(name) {
+        console.log(`Asked to delete ${name}`);
       }
     },
     computed: {
