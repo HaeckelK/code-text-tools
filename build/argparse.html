@@ -138,13 +138,13 @@
         this.exampleArguments.splice(index, 1);
         this.exampleArguments.splice(toIndex, 0, arg);
       },
-      addArgument() {
+      addArgument(argument) {
         this.exampleArguments.push({"id": this.nextArgumentID,
-                                    "name": "limit",
-                                    "type": "int",
-                                    "variableName": "limit",
-                                    "default": "10",
-                                    "required": false })
+                                    "name": argument.name,
+                                    "type": argument.type,
+                                    "variableName": argument.variableName,
+                                    "default": argument.default,
+                                    "required": argument.required })
         this.nextArgumentID++;
       }
     },
