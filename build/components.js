@@ -13,8 +13,11 @@ const CLIAgumentDisplay = {
   template: `<div>
   <h5> {{ arg }} </h5>
   <div class="btn-group">
-  <button type="button" class="btn btn__danger" @click="deleteArgument">
+  <button type="button" class="btn btn-danger" @click="deleteArgument">
     Delete
+  </button>
+  <button type="button" class="btn btn-info">
+    Edit
   </button>
 </div>
 </div>`,
