@@ -14,10 +14,10 @@ const CLIAgumentDisplay = {
   <h5> {{ arg }} </h5>
   <div class="btn-group">
   <button type="button" class="btn btn-danger" @click="deleteArgument">
-    Delete
+  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
   </button>
   <button type="button" class="btn btn-info">
-  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
   </button>
   <button type="button" class="btn btn-secondary" @click="moveUp">
     <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
