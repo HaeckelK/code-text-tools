@@ -44,17 +44,35 @@ const CLIAgumentDisplay = {
 const CLIArgumentForm = {
   template: `<div>
   <form @submit.prevent="onSubmit">
+    Name: <input type="text" v-model.lazy.trim="name"><br>
+    Type: 
+    <select type="text" v-model="type">
+      <option>str</option>
+      <option>int</option>
+      <option>float</option>
+      <option>bool</option>
+    </select>
+    <br>
+    DefaultValue: <input type="text" v-model.lazy.trim="defaultValue"><br>
     <button type="submit" class="btn btn-primary">
       Add
     </button>
   </form>
 </div>`,
-methods: {
+  methods: {
     onSubmit() {
-      if (this.label === "") {
-        return;
-      }
-      this.$emit('add-argument');
+      const argument = newArgument(this.name, this.type, this.name, this.defaultValue);
+      this.$emit('add-argument', argument);
+      this.name = "name";
+      this.type = "str";
+      this.defaultValue = "";
+    }
+  },
+  data() {
+    return {
+      name: "name",
+      type: "str",
+      defaultValue: ""
     }
   }
 }
