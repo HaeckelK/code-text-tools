@@ -8,7 +8,6 @@
   <script>var exports = {};</script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/python-argparse-generator@0.2/lib/index.js"></script>
-  <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
@@ -26,7 +25,24 @@
               </div>
 
             </div>
-            <textarea style="margin: 0px; width: 300px; height: 200px;" v-model="specification.rawArguments"></textarea>
+            <textarea style="margin: 0px; width: 300px; height: 200px;"
+                      v-model="specification.rawArguments"
+                      v-show="!demoArgumentsDev"></textarea>
+            <div id="cliArguments" v-show="demoArgumentsDev">
+              <h3>Arguments:</h3>
+              <argument-form @add-argument="addArgument"></argument-form>
+              <div v-for="argument in exampleArguments" :key="argument.id">
+                <argument-display v-bind:arg="argument"
+                                  @delete-argument="deleteArgument(argument.id)"
+                                  @move-up="moveArgumentUp(argument.id)"
+                                  @move-down="moveArgumentDown(argument.id)">
+                </argument-display>
+              </div>
+              <br>
+              <button class="btn btn-danger"
+                      @click="deleteAllArguments"
+                      v-show="exampleArguments.length > 0">Delete All</button>
+            </div>
             <br>
             <button type="button" class="btn btn-default" v-on:click="toggleShowAdvancedSettings">
               <p v-if="showAdvancedSettings">Hide Advanced Settings</p>
@@ -42,11 +58,12 @@
                 <label>Main Function Name: </label><input v-model="advancedSettings.mainName"><br>
                 <label>CLI Function Name: </label><input v-model="advancedSettings.cliName"><br>
                 <label>Argument Return Object Name: </label><input v-model="advancedSettings.argsName"><br>
+                <label for="checkbox">Dev Mode: </label>
+                <input type="checkbox" v-model="demoArgumentsDev"><br>
               </div>
             </div>
             <div class="form-group">
               <div class="col-md-12 verify">
-                <strong>Python Argparse</strong>
                 <pre>{{ argparse }}</pre>
               </div>
             </div>
@@ -59,7 +76,9 @@
 <script type="text/javascript">
   var webstore = new Vue({
     el: '#app',
-    components: { 'page-banner': PageBanner },
+    components: {'page-banner': PageBanner,
+                 'argument-display': CLIAgumentDisplay,
+                 'argument-form': CLIArgumentForm},
     data: {
       sitename: "Python Argparse Generator",
       specification: {
@@ -73,7 +92,13 @@
         cliName: 'cli',
         argsName: 'args'
       },
-      showAdvancedSettings: false
+      nextArgumentID: 5,
+      showAdvancedSettings: false,
+      demoArgumentsDev: false,  // This is temporary switch while PRs go in before final change to edit / delete / reorder etc
+      exampleArguments: [{ "id": 1, "name": "filename", "type": "str", "variableName": "filename", "default": "/data/file.csv", "required": false },
+      { "id": 2, "name": "limit", "type": "int", "variableName": "limit", "default": "10", "required": false },
+      { "id": 3, "name": "--overwrite", "type": "bool", "variableName": "overwrite", "default": "true", "required": false },
+      { "id": 4, "name": "--delay", "type": "int", "variableName": "delay", "default": "", "required": false }]
     },
     methods: {
       parseRawArgument(rawArgument) {
@@ -85,6 +110,42 @@
       },
       toggleShowAdvancedSettings() {
         this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
+      },
+      deleteAllArguments() {
+        this.exampleArguments = [];
+      },
+      deleteArgument(argumentID) {
+        const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
+        this.exampleArguments.splice(index, 1);
+      },
+      moveArgumentUp(argumentID) {
+        const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
+        const arg = this.exampleArguments[index];
+        const toIndex = index - 1;
+        if (toIndex < 0) {
+          return;
+        }
+        this.exampleArguments.splice(index, 1);
+        this.exampleArguments.splice(toIndex, 0, arg);
+      },
+      moveArgumentDown(argumentID) {
+        const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
+        const arg = this.exampleArguments[index];
+        const toIndex = index + 1;
+        if (toIndex >= this.exampleArguments.length) {
+          return;
+        }
+        this.exampleArguments.splice(index, 1);
+        this.exampleArguments.splice(toIndex, 0, arg);
+      },
+      addArgument() {
+        this.exampleArguments.push({"id": this.nextArgumentID,
+                                    "name": "limit",
+                                    "type": "int",
+                                    "variableName": "limit",
+                                    "default": "10",
+                                    "required": false })
+        this.nextArgumentID++;
       }
     },
     computed: {
@@ -104,7 +165,13 @@
         settings.mainName = this.advancedSettings.mainName;
         settings.cliName = this.advancedSettings.cliName;
         settings.argsName = this.advancedSettings.argsName;
-        return argparseCode(this.arguments, settings);
+        let args;
+        if (this.demoArgumentsDev) {
+          args = this.exampleArguments;
+        } else {
+          args = this.arguments;
+        }
+        return argparseCode(args, settings);
       }
     }
   });
