@@ -8,3 +8,8 @@ const PageBanner = {
   </header>`,
   props: ['pagename']
 };
+
+const CLIAgumentDisplay = {
+  template: `<h5> {{ arg }} </h5>`,
+  props: ['arg']
+};

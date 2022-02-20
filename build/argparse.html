@@ -27,6 +27,12 @@
 
             </div>
             <textarea style="margin: 0px; width: 300px; height: 200px;" v-model="specification.rawArguments"></textarea>
+            <div id="cliArguments" v-show="showArgumentsList">
+              <h3>Arguments:</h3>
+              <div v-for="argument in arguments" :key="argument.name">
+                <argument-display v-bind:arg="argument"></argument-display>
+              </div>
+            </div>
             <br>
             <button type="button" class="btn btn-default" v-on:click="toggleShowAdvancedSettings">
               <p v-if="showAdvancedSettings">Hide Advanced Settings</p>
@@ -59,7 +65,7 @@
 <script type="text/javascript">
   var webstore = new Vue({
     el: '#app',
-    components: { 'page-banner': PageBanner },
+    components: { 'page-banner': PageBanner, 'argument-display': CLIAgumentDisplay},
     data: {
       sitename: "Python Argparse Generator",
       specification: {
@@ -73,7 +79,8 @@
         cliName: 'cli',
         argsName: 'args'
       },
-      showAdvancedSettings: false
+      showAdvancedSettings: false,
+      showArgumentsList: true,  // This is temporary switch while PRs go in before final change to edit / delete / reorder etc
     },
     methods: {
       parseRawArgument(rawArgument) {
