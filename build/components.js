@@ -24,7 +24,7 @@ const CLIAgumentDisplay = {
   props: ['arg'],
   methods: {
     deleteArgument() {
-      this.$emit("argument-deleted");
+      this.$emit("delete-argument");
     },
   }
 };

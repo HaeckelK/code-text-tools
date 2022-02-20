@@ -29,8 +29,8 @@
             <div id="cliArguments" v-show="showArgumentsList">
               <h3>Arguments:</h3>
               <button @click="addArgument">Add</button>
-              <div v-for="argument in exampleArguments" :key="argument.name">
-                <argument-display v-bind:arg="argument" @argument-deleted="deleteArgument(argument.name)">
+              <div v-for="argument in exampleArguments" :key="argument.id">
+                <argument-display v-bind:arg="argument" @delete-argument="deleteArgument(argument.id)">
                 </argument-display>
               </div>
             </div>
@@ -80,12 +80,13 @@
         cliName: 'cli',
         argsName: 'args'
       },
+      nextArgumentID: 5,
       showAdvancedSettings: false,
       showArgumentsList: true,  // This is temporary switch while PRs go in before final change to edit / delete / reorder etc
-      exampleArguments: [{ "name": "filename", "type": "str", "variableName": "filename", "default": "/data/file.csv", "required": false },
-      { "name": "limit", "type": "int", "variableName": "limit", "default": "10", "required": false },
-      { "name": "--overwrite", "type": "bool", "variableName": "overwrite", "default": "true", "required": false },
-      { "name": "--delay", "type": "int", "variableName": "delay", "default": "", "required": false }]
+      exampleArguments: [{ "id": 1, "name": "filename", "type": "str", "variableName": "filename", "default": "/data/file.csv", "required": false },
+      { "id": 2, "name": "limit", "type": "int", "variableName": "limit", "default": "10", "required": false },
+      { "id": 3, "name": "--overwrite", "type": "bool", "variableName": "overwrite", "default": "true", "required": false },
+      { "id": 4, "name": "--delay", "type": "int", "variableName": "delay", "default": "", "required": false }]
     },
     methods: {
       parseRawArgument(rawArgument) {
@@ -98,16 +99,18 @@
       toggleShowAdvancedSettings() {
         this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
       },
-      deleteArgument(name) {
-        const index = this.exampleArguments.findIndex(arg => arg.name === name);
+      deleteArgument(argumentID) {
+        const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
         this.exampleArguments.splice(index, 1);
       },
       addArgument() {
-        this.exampleArguments.push({"name": "limit",
+        this.exampleArguments.push({"id": this.nextArgumentID,
+                                    "name": "limit",
                                     "type": "int",
                                     "variableName": "limit",
                                     "default": "10",
                                     "required": false })
+        this.nextArgumentID++;
       }
     },
     computed: {
