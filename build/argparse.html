@@ -17,7 +17,7 @@
     <div class="row">
       <div class="col-md-10 col-md-offset-1">
         <div class="panel panel-info">
-          <div class="panel-heading">Python Argparse Generator</div>
+          <div class="alert alert-info" role="alert" v-show="message">{{ message }}</div>
           <div class="panel-body">
             <div class="panel panel-default">
               <div class="panel-body">Generate a Python Argparse CLI function.
@@ -95,15 +95,17 @@
       },
       nextArgumentID: 5,
       showAdvancedSettings: false,
-      demoArgumentsDev: false,  // This is temporary switch while PRs go in before final change to edit / delete / reorder etc
+      demoArgumentsDev: true,  // This is temporary switch while PRs go in before final change to edit / delete / reorder etc
       exampleArguments: [{ "id": 1, "name": "filename", "type": "str", "variableName": "filename", "default": "/data/file.csv", "required": false },
       { "id": 2, "name": "limit", "type": "int", "variableName": "limit", "default": "10", "required": false },
       { "id": 3, "name": "--overwrite", "type": "bool", "variableName": "overwrite", "default": "true", "required": false },
-      { "id": 4, "name": "--delay", "type": "int", "variableName": "delay", "default": "", "required": false }]
+      { "id": 4, "name": "--delay", "type": "int", "variableName": "delay", "default": "", "required": false }],
+      message: ""
     },
     methods: {
       flashMessage(message) {
         console.log(message);
+        this.message = message;
       },
       parseRawArgument(rawArgument) {
         let items = rawArgument.split(",").filter(e => e).map(x => x.trim());
