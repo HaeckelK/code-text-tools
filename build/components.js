@@ -63,7 +63,7 @@ const CLIArgumentForm = {
     onSubmit() {
       const argument = newArgument(this.name, this.type, this.name, this.defaultValue);
       this.$emit('add-argument', argument);
-      this.name = "name";
+      this.name = "";
       this.type = "str";
       this.defaultValue = "";
       const nameInputRef = this.$refs.nameInput;
@@ -72,7 +72,7 @@ const CLIArgumentForm = {
   },
   data() {
     return {
-      name: "name",
+      name: "",
       type: "str",
       defaultValue: ""
     }
