@@ -8,7 +8,6 @@
   <script>var exports = {};</script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/python-argparse-generator@0.2/lib/index.js"></script>
-  <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
@@ -29,6 +28,7 @@
             <textarea style="margin: 0px; width: 300px; height: 200px;" v-model="specification.rawArguments"></textarea>
             <div id="cliArguments" v-show="showArgumentsList">
               <h3>Arguments:</h3>
+              <button @click="addArgument">Add</button>
               <div v-for="argument in exampleArguments" :key="argument.name">
                 <argument-display v-bind:arg="argument" @argument-deleted="deleteArgument(argument.name)">
                 </argument-display>
@@ -101,6 +101,13 @@
       deleteArgument(name) {
         const index = this.exampleArguments.findIndex(arg => arg.name === name);
         this.exampleArguments.splice(index, 1);
+      },
+      addArgument() {
+        this.exampleArguments.push({"name": "limit",
+                                    "type": "int",
+                                    "variableName": "limit",
+                                    "default": "10",
+                                    "required": false })
       }
     },
     computed: {
