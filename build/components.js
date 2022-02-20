@@ -17,7 +17,7 @@ const CLIAgumentDisplay = {
     Delete
   </button>
   <button type="button" class="btn btn-info">
-    Edit
+  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
   </button>
   <button type="button" class="btn btn-secondary" @click="moveUp">
     <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
