@@ -44,7 +44,7 @@ const CLIAgumentDisplay = {
 const CLIArgumentForm = {
   template: `<div>
   <form @submit.prevent="onSubmit">
-    Name: <input type="text" v-model.lazy.trim="name"><br>
+    Name: <input type="text" v-model.lazy.trim="name" ref="nameInput"><br>
     Type: 
     <select type="text" v-model="type">
       <option>str</option>
@@ -66,6 +66,8 @@ const CLIArgumentForm = {
       this.name = "name";
       this.type = "str";
       this.defaultValue = "";
+      const nameInputRef = this.$refs.nameInput;
+      nameInputRef.focus();
     }
   },
   data() {
