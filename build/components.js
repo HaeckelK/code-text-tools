@@ -67,6 +67,10 @@ const CLIArgumentForm = {
 </div>`,
   methods: {
     onSubmit() {
+      if (this.name === "") {
+        return;
+      }
+
       const argument = newArgument(this.name, this.type, this.name, this.defaultValue);
       this.$emit('add-argument', argument);
       this.name = "";
