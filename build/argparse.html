@@ -32,7 +32,8 @@
               <div v-for="argument in exampleArguments" :key="argument.id">
                 <argument-display v-bind:arg="argument"
                                   @delete-argument="deleteArgument(argument.id)"
-                                  @move-up="moveArgumentUp(argument.id)">
+                                  @move-up="moveArgumentUp(argument.id)"
+                                  @move-down="moveArgumentDown(argument.id)">
                 </argument-display>
               </div>
             </div>
@@ -111,6 +112,16 @@
         const arg = this.exampleArguments[index];
         const toIndex = index - 1;
         if (toIndex < 0) {
+          return;
+        }
+        this.exampleArguments.splice(index, 1);
+        this.exampleArguments.splice(toIndex, 0, arg);
+      },
+      moveArgumentDown(argumentID) {
+        const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
+        const arg = this.exampleArguments[index];
+        const toIndex = index + 1;
+        if (toIndex >= this.exampleArguments.length) {
           return;
         }
         this.exampleArguments.splice(index, 1);
