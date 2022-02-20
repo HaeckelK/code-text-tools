@@ -29,8 +29,9 @@
             <textarea style="margin: 0px; width: 300px; height: 200px;" v-model="specification.rawArguments"></textarea>
             <div id="cliArguments" v-show="showArgumentsList">
               <h3>Arguments:</h3>
-              <div v-for="argument in arguments" :key="argument.name">
-                <argument-display v-bind:arg="argument" @argument-deleted="deleteArgument(argument.name)"></argument-display>
+              <div v-for="argument in exampleArguments" :key="argument.name">
+                <argument-display v-bind:arg="argument" @argument-deleted="deleteArgument(argument.name)">
+                </argument-display>
               </div>
             </div>
             <br>
@@ -65,7 +66,7 @@
 <script type="text/javascript">
   var webstore = new Vue({
     el: '#app',
-    components: { 'page-banner': PageBanner, 'argument-display': CLIAgumentDisplay},
+    components: { 'page-banner': PageBanner, 'argument-display': CLIAgumentDisplay },
     data: {
       sitename: "Python Argparse Generator",
       specification: {
@@ -81,6 +82,10 @@
       },
       showAdvancedSettings: false,
       showArgumentsList: true,  // This is temporary switch while PRs go in before final change to edit / delete / reorder etc
+      exampleArguments: [{ "name": "filename", "type": "str", "variableName": "filename", "default": "/data/file.csv", "required": false },
+      { "name": "limit", "type": "int", "variableName": "limit", "default": "10", "required": false },
+      { "name": "--overwrite", "type": "bool", "variableName": "overwrite", "default": "true", "required": false },
+      { "name": "--delay", "type": "int", "variableName": "delay", "default": "", "required": false }]
     },
     methods: {
       parseRawArgument(rawArgument) {
@@ -94,7 +99,8 @@
         this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
       },
       deleteArgument(name) {
-        console.log(`Asked to delete ${name}`);
+        const index = this.exampleArguments.findIndex(arg => arg.name === name);
+        this.exampleArguments.splice(index, 1);
       }
     },
     computed: {
@@ -114,7 +120,7 @@
         settings.mainName = this.advancedSettings.mainName;
         settings.cliName = this.advancedSettings.cliName;
         settings.argsName = this.advancedSettings.argsName;
-        return argparseCode(this.arguments, settings);
+        return argparseCode(this.exampleArguments, settings);
       }
     }
   });
