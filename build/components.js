@@ -1,5 +1,5 @@
 const PageBanner = {
-    template: `<header>
+  template: `<header>
     <div class="navbar navbar-default">
       <div class="navbar-header">
         <h1>{{ pagename }}</h1>
@@ -10,6 +10,18 @@ const PageBanner = {
 };
 
 const CLIAgumentDisplay = {
-  template: `<h5> {{ arg }} </h5>`,
-  props: ['arg']
+  template: `<div>
+  <h5> {{ arg }} </h5>
+  <div class="btn-group">
+  <button type="button" class="btn btn__danger" @click="deleteArgument">
+    Delete
+  </button>
+</div>
+</div>`,
+  props: ['arg'],
+  methods: {
+    deleteArgument() {
+      this.$emit("argument-deleted");
+    },
+  }
 };
