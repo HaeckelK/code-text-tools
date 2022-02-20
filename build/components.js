@@ -28,3 +28,21 @@ const CLIAgumentDisplay = {
     },
   }
 };
+
+const CLIArgumentForm = {
+  template: `<div>
+  <form @submit.prevent="onSubmit">
+    <button type="submit" class="btn btn-primary">
+      Add
+    </button>
+  </form>
+</div>`,
+methods: {
+    onSubmit() {
+      if (this.label === "") {
+        return;
+      }
+      this.$emit('add-argument');
+    }
+  }
+}
