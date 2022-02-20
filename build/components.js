@@ -22,6 +22,9 @@ const CLIAgumentDisplay = {
     <button type="button" class="btn btn-secondary" @click="moveDown">
       <span class="glyphicon glyphicon-arrow-down" aria-hidden="false"></span>
     </button>
+    <button type="button" class="btn btn-secondary" @click="copyArgument">
+      <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+    </button>
     <button type="button" class="btn btn-danger" @click="deleteArgument">
       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     </button>
@@ -37,6 +40,9 @@ const CLIAgumentDisplay = {
     },
     moveDown() {
       this.$emit('move-down', this.arg.id);
+    },
+    copyArgument() {
+      this.$emit('copy-argument', this.arg.id);
     }
   }
 };
@@ -44,17 +50,41 @@ const CLIAgumentDisplay = {
 const CLIArgumentForm = {
   template: `<div>
   <form @submit.prevent="onSubmit">
+    Name: <input type="text" v-model.lazy.trim="name" ref="nameInput"><br>
+    Type: 
+    <select type="text" v-model="type">
+      <option>str</option>
+      <option>int</option>
+      <option>float</option>
+      <option>bool</option>
+    </select>
+    <br>
+    DefaultValue: <input type="text" v-model.lazy.trim="defaultValue"><br>
     <button type="submit" class="btn btn-primary">
       Add
     </button>
   </form>
 </div>`,
-methods: {
+  methods: {
     onSubmit() {
-      if (this.label === "") {
+      if (this.name === "") {
         return;
       }
-      this.$emit('add-argument');
+
+      const argument = newArgument(this.name, this.type, this.name, this.defaultValue);
+      this.$emit('add-argument', argument);
+      this.name = "";
+      this.type = "str";
+      this.defaultValue = "";
+      const nameInputRef = this.$refs.nameInput;
+      nameInputRef.focus();
+    }
+  },
+  data() {
+    return {
+      name: "",
+      type: "str",
+      defaultValue: ""
     }
   }
 }
