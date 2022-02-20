@@ -19,6 +19,12 @@ const CLIAgumentDisplay = {
   <button type="button" class="btn btn-info">
     Edit
   </button>
+  <button type="button" class="btn btn-secondary" @click="moveUp">
+    <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+  </button>
+  <button type="button" class="btn btn-secondary" @click="moveDown">
+    <span class="glyphicon glyphicon-arrow-down" aria-hidden="false"></span>
+  </button>
 </div>
 </div>`,
   props: ['arg'],
@@ -26,6 +32,12 @@ const CLIAgumentDisplay = {
     deleteArgument() {
       this.$emit("delete-argument");
     },
+    moveUp() {
+      this.$emit('move-up', this.arg.id);
+    },
+    moveDown() {
+      this.$emit('move-down', this.arg.id);
+    }
   }
 };
 
