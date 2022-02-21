@@ -11,7 +11,6 @@ const PageBanner = {
 
 const CLIAgumentDisplay = {
   template: `<div>
-  <h5> {{ arg }} </h5>
   <div class="btn-group">
     <button type="button" class="btn btn-info">
       <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -28,6 +27,7 @@ const CLIAgumentDisplay = {
     <button type="button" class="btn btn-danger" @click="deleteArgument">
       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     </button>
+    <span style="padding-left: 30px; font-weight: bold;">{{ arg.name }} [{{arg.type}}]</span>
   </div>
 </div>`,
   props: ['arg'],
