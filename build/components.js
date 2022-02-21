@@ -11,7 +11,7 @@ const PageBanner = {
 
 const CLIAgumentDisplay = {
   template: `<div>
-  <div class="btn-group">
+  <div class="btn-group" style="padding: 2px;">
     <button type="button" class="btn btn-info">
       <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
     </button>
