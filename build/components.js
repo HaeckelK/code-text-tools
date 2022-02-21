@@ -11,9 +11,8 @@ const PageBanner = {
 
 const CLIAgumentDisplay = {
   template: `<div>
-  <h5> {{ arg }} </h5>
-  <div class="btn-group">
-    <button type="button" class="btn btn-info">
+  <div class="btn-group" style="padding: 2px;">
+    <button type="button" class="btn btn-info" @click="edited">
       <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
     </button>
     <button type="button" class="btn btn-secondary" @click="moveUp">
@@ -28,6 +27,7 @@ const CLIAgumentDisplay = {
     <button type="button" class="btn btn-danger" @click="deleteArgument">
       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     </button>
+    <span style="padding-left: 30px; font-weight: bold;">{{ arg.name }} [{{arg.type}}]</span>
   </div>
 </div>`,
   props: ['arg'],
@@ -43,6 +43,11 @@ const CLIAgumentDisplay = {
     },
     copyArgument() {
       this.$emit('copy-argument', this.arg.id);
+    },
+    edited() {
+      this.arg.name = Array.from(this.arg.name).reverse().join('');
+      this.arg.variableName = Array.from(this.arg.variableName).reverse().join('');
+      this.$emit('edited-argument', this.arg);
     }
   }
 };

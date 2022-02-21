@@ -36,7 +36,8 @@
                                   @delete-argument="deleteArgument(argument.id)"
                                   @copy-argument="copyArgument"
                                   @move-up="moveArgumentUp(argument.id)"
-                                  @move-down="moveArgumentDown(argument.id)">
+                                  @move-down="moveArgumentDown(argument.id)"
+                                  @edited-argument="updateArgument">
                 </argument-display>
               </div>
               <br>
@@ -134,6 +135,11 @@
         this.nextArgumentID++;
         this.exampleArguments.push(newArgument);
         this.flashMessage(`Copied argument ${argument.name}`);
+      },
+      updateArgument(updatedArgument) {
+        const index = this.exampleArguments.findIndex(arg => arg.id === updatedArgument.id);
+        this.exampleArguments[index] = updatedArgument;
+        this.flashMessage(`Updated argument ${updatedArgument.name}`);
       },
       moveArgumentUp(argumentID) {
         const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
