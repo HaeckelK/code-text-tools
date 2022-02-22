@@ -1,6 +1,9 @@
+<!DOCTYPE html>
 <html>
 
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Python Argparse Generator</title>
 
   <script src="components.js"></script>
@@ -8,49 +11,43 @@
   <script>var exports = {};</script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/python-argparse-generator@0.2/lib/index.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
 </head>
 <div id="app">
-  <page-banner v-bind:pagename="sitename"></page-banner>
-  <main>
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-        <div class="panel panel-info">
-          <div class="alert alert-info" role="alert" v-show="message">{{ message }}</div>
-          <div class="panel-body">
-            <div class="panel panel-default">
-              <div class="panel-body">Generate a Python Argparse CLI function.
+  <section class="section">
+    <div>
+      <div>
+        <div>
+          <div v-show="message">{{ message }}</div>
+          <div>
+            <div>
+              <div>Generate a Python Argparse CLI function.
                 Add arguments in format name,type,default.
               </div>
 
             </div>
-            <textarea style="margin: 0px; width: 300px; height: 200px;"
-                      v-model="specification.rawArguments"
-                      v-show="!demoArgumentsDev"></textarea>
+            <textarea v-model="specification.rawArguments"
+              v-show="!demoArgumentsDev"></textarea>
             <div id="cliArguments" v-show="demoArgumentsDev">
               <h3>Arguments:</h3>
               <argument-form @add-argument="addArgument"></argument-form>
               <div v-for="argument in exampleArguments" :key="argument.id">
-                <argument-display v-bind:arg="argument"
-                                  @delete-argument="deleteArgument(argument.id)"
-                                  @copy-argument="copyArgument"
-                                  @move-up="moveArgumentUp(argument.id)"
-                                  @move-down="moveArgumentDown(argument.id)"
-                                  @edited-argument="updateArgument">
+                <argument-display v-bind:arg="argument" @delete-argument="deleteArgument(argument.id)"
+                  @copy-argument="copyArgument" @move-up="moveArgumentUp(argument.id)"
+                  @move-down="moveArgumentDown(argument.id)" @edited-argument="updateArgument">
                 </argument-display>
               </div>
               <br>
-              <button class="btn btn-danger"
-                      @click="deleteAllArguments"
-                      v-show="exampleArguments.length > 0">Delete All</button>
+              <button @click="deleteAllArguments" v-show="exampleArguments.length > 0">Delete
+                All</button>
             </div>
             <br>
-            <button type="button" class="btn btn-default" v-on:click="toggleShowAdvancedSettings">
+            <button type="button" v-on:click="toggleShowAdvancedSettings">
               <p v-if="showAdvancedSettings">Hide Advanced Settings</p>
               <p v-else>Show Advanced Settings</p>
             </button>
-            <div class="col-md-12 verify" v-show="showAdvancedSettings">
+            <div v-show="showAdvancedSettings">
               <div id="advancedSettingsArea">
                 <h4>Advanced Settings</h4>
                 <label for="checkbox">Type Hints: </label>
@@ -64,8 +61,8 @@
                 <input type="checkbox" v-model="demoArgumentsDev"><br>
               </div>
             </div>
-            <div class="form-group">
-              <div class="col-md-12 verify">
+            <div>
+              <div>
                 <pre>{{ argparse }}</pre>
               </div>
             </div>
@@ -73,14 +70,16 @@
         </div>
       </div>
     </div>
-  </main>
+  </section>
 </div>
 <script type="text/javascript">
   var webstore = new Vue({
     el: '#app',
-    components: {'page-banner': PageBanner,
-                 'argument-display': CLIAgumentDisplay,
-                 'argument-form': CLIArgumentForm},
+    components: {
+      'page-banner': PageBanner,
+      'argument-display': CLIAgumentDisplay,
+      'argument-form': CLIArgumentForm
+    },
     data: {
       sitename: "Python Argparse Generator",
       specification: {
@@ -162,12 +161,14 @@
         this.exampleArguments.splice(toIndex, 0, arg);
       },
       addArgument(argument) {
-        this.exampleArguments.push({"id": this.nextArgumentID,
-                                    "name": argument.name,
-                                    "type": argument.type,
-                                    "variableName": argument.variableName,
-                                    "default": argument.default,
-                                    "required": argument.required })
+        this.exampleArguments.push({
+          "id": this.nextArgumentID,
+          "name": argument.name,
+          "type": argument.type,
+          "variableName": argument.variableName,
+          "default": argument.default,
+          "required": argument.required
+        })
         this.nextArgumentID++;
         this.flashMessage(`Added argument: ${argument.name}`);
       }

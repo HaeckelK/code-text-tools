@@ -1,12 +1,23 @@
 const PageBanner = {
   template: `<header>
-    <div class="navbar navbar-default">
-      <div class="navbar-header">
+    <div>
+      <div>
         <h1>{{ pagename }}</h1>
       </div>
     </div>
   </header>`,
   props: ['pagename']
+};
+
+const PageFooter = {
+  template: `<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>My Code Buddy</strong> by <a href="https://github.com/HaeckelK/code-text-tools">HaeckelK</a>. The source code is licensed
+      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+    </p>
+  </div>
+</footer>`
 };
 
 
@@ -65,7 +76,6 @@ const CLIArgumentEditorForm = {
     }
   }
 }
-
 
 const CLIAgumentDisplay = {
   template: `<div>
@@ -126,19 +136,40 @@ const CLIAgumentDisplay = {
 const CLIArgumentForm = {
   template: `<div>
   <form @submit.prevent="onSubmit">
-    Name: <input type="text" v-model.lazy.trim="name" ref="nameInput"><br>
-    Type: 
-    <select type="text" v-model="type">
-      <option>str</option>
-      <option>int</option>
-      <option>float</option>
-      <option>bool</option>
-    </select>
-    <br>
-    DefaultValue: <input type="text" v-model.lazy.trim="defaultValue"><br>
-    <button type="submit" class="btn btn-primary">
-      Add
-    </button>
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="Argument name" v-model.lazy.trim="name" ref="nameInput">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Type</label>
+      <div class="control">
+        <div class="select">
+          <select type="text" v-model="type">
+            <option>str</option>
+            <option>int</option>
+            <option>float</option>
+            <option>bool</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Default Value</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="Default Value" v-model.lazy.trim="defaultValue">
+      </div>
+    </div>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-link is-small" type="submit">Add</button>
+      </div>
+    </div>
+
   </form>
 </div>`,
   methods: {
