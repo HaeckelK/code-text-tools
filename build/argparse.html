@@ -138,7 +138,7 @@
       },
       updateArgument(updatedArgument) {
         const index = this.exampleArguments.findIndex(arg => arg.id === updatedArgument.id);
-        this.exampleArguments[index] = updatedArgument;
+        this.exampleArguments.splice(index, 1, updatedArgument);
         this.flashMessage(`Updated argument ${updatedArgument.name}`);
       },
       moveArgumentUp(argumentID) {
