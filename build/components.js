@@ -9,10 +9,16 @@ const PageBanner = {
   props: ['pagename']
 };
 
+
+const CLIArgumentEditorForm = {
+  template: `<h1>PLACEHOLDER FOR EDITING</h1>`
+}
+
+
 const CLIAgumentDisplay = {
   template: `<div>
-  <div class="btn-group" style="padding: 2px;">
-    <button type="button" class="btn btn-info" @click="edited">
+  <div class="btn-group" style="padding: 2px;" v-if="!isEditing">
+    <button type="button" class="btn btn-info" @click="showEditor">
       <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
     </button>
     <button type="button" class="btn btn-secondary" @click="moveUp">
@@ -29,8 +35,15 @@ const CLIAgumentDisplay = {
     </button>
     <span style="padding-left: 30px; font-weight: bold;">{{ arg.name }} [{{arg.type}}]</span>
   </div>
+  <editor v-else></editor>
 </div>`,
+  components: {'editor': CLIArgumentEditorForm},
   props: ['arg'],
+  data() {
+    return {
+      isEditing: false
+    };
+  },
   methods: {
     deleteArgument() {
       this.$emit("delete-argument");
@@ -48,6 +61,9 @@ const CLIAgumentDisplay = {
       this.arg.name = Array.from(this.arg.name).reverse().join('');
       this.arg.variableName = Array.from(this.arg.variableName).reverse().join('');
       this.$emit('edited-argument', this.arg);
+    },
+    showEditor() {
+      this.isEditing = true;
     }
   }
 };
