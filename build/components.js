@@ -9,10 +9,68 @@ const PageBanner = {
   props: ['pagename']
 };
 
+
+const CLIArgumentEditorForm = {
+  template: `<div>
+  <h3>Editing: {{name}}</h3>
+  <form @submit.prevent="saveEditor">
+    Name: <input type="text" v-model.trim="name" ref="nameInput"><br>
+    Type: 
+    <select type="text" v-model="type">
+      <option>str</option>
+      <option>int</option>
+      <option>float</option>
+      <option>bool</option>
+    </select>
+    <br>
+    DefaultValue: <input type="text" v-model.lazy.trim="defaultValue"><br>
+    Variable Name: <input type="text" v-model.lazy.trim="variableName" ref="variableNameInput"><br>
+    Required: 
+    <select type="text" v-model="required">
+      <option>true</option>
+      <option>false</option>
+    </select>
+    <br>
+  </form>
+  <button type="button" class="btn btn-success" @click="saveEditor">
+    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+  </button>
+  <button type="button" class="btn btn-danger" @click="cancelEditor">
+    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+  </button>
+</div>`,
+  props: ['arg'],
+  data() {
+    return {
+      name: this.arg.name,
+      variableName: this.arg.variableName,
+      type: this.arg.type,
+      defaultValue: this.arg.default,
+      required: this.arg.required
+    };
+  },
+  methods: {
+    cancelEditor() {
+      this.$emit('cancel-editor');
+    },
+    saveEditor() {
+      let editedArgument = {
+        name: this.name,
+        type: this.type,
+        variableName: this.variableName,
+        default: this.defaultValue,
+        required: this.required
+      }
+      this.$emit('save-editor', editedArgument);
+    }
+  }
+}
+
+
 const CLIAgumentDisplay = {
   template: `<div>
-  <div class="btn-group" style="padding: 2px;">
-    <button type="button" class="btn btn-info" @click="edited">
+  <div class="btn-group" style="padding: 2px;" v-if="!isEditing">
+    <button type="button" class="btn btn-info" @click="toggleEditor">
       <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
     </button>
     <button type="button" class="btn btn-secondary" @click="moveUp">
@@ -29,8 +87,18 @@ const CLIAgumentDisplay = {
     </button>
     <span style="padding-left: 30px; font-weight: bold;">{{ arg.name }} [{{arg.type}}]</span>
   </div>
+  <editor v-else
+          :arg="arg"
+          @cancel-editor="toggleEditor"
+          @save-editor="edited"></editor>
 </div>`,
+  components: { 'editor': CLIArgumentEditorForm },
   props: ['arg'],
+  data() {
+    return {
+      isEditing: false
+    };
+  },
   methods: {
     deleteArgument() {
       this.$emit("delete-argument");
@@ -44,10 +112,13 @@ const CLIAgumentDisplay = {
     copyArgument() {
       this.$emit('copy-argument', this.arg.id);
     },
-    edited() {
-      this.arg.name = Array.from(this.arg.name).reverse().join('');
-      this.arg.variableName = Array.from(this.arg.variableName).reverse().join('');
-      this.$emit('edited-argument', this.arg);
+    edited(editedArgument) {
+      editedArgument.id = this.arg.id;
+      this.isEditing = false;
+      this.$emit('edited-argument', editedArgument);
+    },
+    toggleEditor() {
+      this.isEditing = !this.isEditing;
     }
   }
 };
