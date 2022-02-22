@@ -13,13 +13,19 @@ const PageBanner = {
 const CLIArgumentEditorForm = {
   template: `<div>
   <h1>PLACEHOLDER FOR EDITING</h1>
+  <button type="button" class="btn btn-success" @click="saveEditor">
+    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+  </button>
   <button type="button" class="btn btn-danger" @click="cancelEditor">
-  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-</button>
+    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+  </button>
 </div>`,
   methods: {
     cancelEditor() {
       this.$emit('cancel-editor');
+    },
+    saveEditor() {
+      this.$emit('save-editor');
     }
   }
 }
@@ -45,7 +51,9 @@ const CLIAgumentDisplay = {
     </button>
     <span style="padding-left: 30px; font-weight: bold;">{{ arg.name }} [{{arg.type}}]</span>
   </div>
-  <editor v-else @cancel-editor="toggleEditor"></editor>
+  <editor v-else
+          @cancel-editor="toggleEditor"
+          @save-editor="edited"></editor>
 </div>`,
   components: {'editor': CLIArgumentEditorForm},
   props: ['arg'],
@@ -68,6 +76,7 @@ const CLIAgumentDisplay = {
       this.$emit('copy-argument', this.arg.id);
     },
     edited() {
+      this.isEditing = false;
       this.arg.name = Array.from(this.arg.name).reverse().join('');
       this.arg.variableName = Array.from(this.arg.variableName).reverse().join('');
       this.$emit('edited-argument', this.arg);
