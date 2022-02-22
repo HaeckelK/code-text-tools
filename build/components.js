@@ -11,14 +11,24 @@ const PageBanner = {
 
 
 const CLIArgumentEditorForm = {
-  template: `<h1>PLACEHOLDER FOR EDITING</h1>`
+  template: `<div>
+  <h1>PLACEHOLDER FOR EDITING</h1>
+  <button type="button" class="btn btn-danger" @click="cancelEditor">
+  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+</button>
+</div>`,
+  methods: {
+    cancelEditor() {
+      this.$emit('cancel-editor');
+    }
+  }
 }
 
 
 const CLIAgumentDisplay = {
   template: `<div>
   <div class="btn-group" style="padding: 2px;" v-if="!isEditing">
-    <button type="button" class="btn btn-info" @click="showEditor">
+    <button type="button" class="btn btn-info" @click="toggleEditor">
       <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
     </button>
     <button type="button" class="btn btn-secondary" @click="moveUp">
@@ -35,7 +45,7 @@ const CLIAgumentDisplay = {
     </button>
     <span style="padding-left: 30px; font-weight: bold;">{{ arg.name }} [{{arg.type}}]</span>
   </div>
-  <editor v-else></editor>
+  <editor v-else @cancel-editor="toggleEditor"></editor>
 </div>`,
   components: {'editor': CLIArgumentEditorForm},
   props: ['arg'],
@@ -62,8 +72,8 @@ const CLIAgumentDisplay = {
       this.arg.variableName = Array.from(this.arg.variableName).reverse().join('');
       this.$emit('edited-argument', this.arg);
     },
-    showEditor() {
-      this.isEditing = true;
+    toggleEditor() {
+      this.isEditing = !this.isEditing;
     }
   }
 };
