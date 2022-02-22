@@ -135,7 +135,7 @@ const CLIAgumentDisplay = {
 
 const CLIArgumentForm = {
   template: `<div>
-  <form @submit.prevent="onSubmit">
+  <form class="box" @submit.prevent="onSubmit">
     <div class="field">
       <label class="label">Name</label>
       <div class="control">
