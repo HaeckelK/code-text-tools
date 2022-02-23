@@ -15,17 +15,19 @@
 
 </head>
 <div id="app">
-  <button type="button" v-on:click="toggleShowAdvancedSettings">
-    <p v-if="showAdvancedSettings">Hide Advanced Settings</p>
-    <p v-else>Show Advanced Settings</p>
-  </button>
   <section class="section">
     <div class="columns">
       <div class="column is-two-thirds">
         <pre>{{ argparse }}</pre>
       </div>
       <div class="column">
-        <div id="cliArguments" v-show="demoArgumentsDev">
+        <div class="tabs">
+          <ul>
+            <li v-bind:class="{ 'is-active': argumentsPanelIsActive }"><a @click="activateTab('arguments')">Arguments</a></li>
+            <li v-bind:class="{ 'is-active': settingsPanelIsActive }"><a @click="activateTab('settings')">Settings</a></li>
+          </ul>
+        </div>
+        <div id="cliArguments" v-show="activeTab === 'arguments'">
           <argument-form @add-argument="addArgument"></argument-form>
           <div v-for="argument in exampleArguments" :key="argument.id">
             <argument-display v-bind:arg="argument" @delete-argument="deleteArgument(argument.id)"
@@ -37,7 +39,7 @@
           <button @click="deleteAllArguments" v-show="exampleArguments.length > 0">Delete
             All</button>
         </div>
-        <div id="settingsPanel" v-show="showAdvancedSettings">
+        <div id="settingsPanel" v-show="activeTab === 'settings'">
           <div id="advancedSettingsArea">
             <h4 class="title">Advanced Settings</h4>
             <label class="checkbox" v-model="advancedSettings.typeHints">
@@ -132,15 +134,18 @@
         argsName: 'args'
       },
       nextArgumentID: 5,
-      showAdvancedSettings: false,
       demoArgumentsDev: true,  // This is temporary switch while PRs go in before final change to edit / delete / reorder etc
       exampleArguments: [{ "id": 1, "name": "filename", "type": "str", "variableName": "filename", "default": "/data/file.csv", "required": false },
       { "id": 2, "name": "limit", "type": "int", "variableName": "limit", "default": "10", "required": false },
       { "id": 3, "name": "--overwrite", "type": "bool", "variableName": "overwrite", "default": "true", "required": false },
       { "id": 4, "name": "--delay", "type": "int", "variableName": "delay", "default": "", "required": false }],
-      message: ""
+      message: "",
+      activeTab: 'arguments'
     },
     methods: {
+      activateTab(tabName) {
+        this.activeTab = tabName;
+      },
       flashMessage(message) {
         console.log(message);
         this.message = message;
@@ -151,9 +156,6 @@
         let type = items[1] || "str";
         let value = items[2];
         return newArgument(name, type, '', value);
-      },
-      toggleShowAdvancedSettings() {
-        this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
       },
       deleteAllArguments() {
         this.exampleArguments = [];
@@ -212,6 +214,12 @@
       }
     },
     computed: {
+      argumentsPanelIsActive() {
+        return this.activeTab === 'arguments';
+      },
+      settingsPanelIsActive() {
+        return this.activeTab === 'settings';
+      },
       arguments() {
         if (this.specification.rawArguments === "") {
           return [];
