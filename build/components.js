@@ -153,9 +153,15 @@ const CLIAgumentDisplay = {
       editedArgument.id = this.arg.id;
       this.isEditing = false;
       this.$emit('edited-argument', editedArgument);
+      this.$emit('editor-closed');
     },
     toggleEditor() {
       this.isEditing = !this.isEditing;
+      if (this.isEditing) {
+        this.$emit('editor-open');
+      } else {
+        this.$emit('editor-closed');
+      }
     }
   }
 };

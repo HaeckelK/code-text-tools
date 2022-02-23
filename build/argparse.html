@@ -30,7 +30,9 @@
           </ul>
         </div>
         <div id="cliArguments" v-show="activeTab === 'arguments'">
-          <argument-form @add-argument="addArgument"></argument-form>
+          <argument-form
+            @add-argument="addArgument"
+            v-show="!editorOpen"></argument-form>
           <div v-for="argument in exampleArguments" :key="argument.id">
             <argument-display 
               v-bind:arg="argument"
@@ -38,7 +40,9 @@
               @copy-argument="copyArgument"
               @move-up="moveArgumentUp(argument.id)"
               @move-down="moveArgumentDown(argument.id)"
-              @edited-argument="updateArgument">
+              @edited-argument="updateArgument"
+              @editor-open="editorOpen = true"
+              @editor-closed="editorOpen = false">
             </argument-display>
           </div>
           <br>
@@ -128,7 +132,8 @@
       { "id": 3, "name": "--overwrite", "type": "bool", "variableName": "overwrite", "default": "true", "required": false },
       { "id": 4, "name": "--delay", "type": "int", "variableName": "delay", "default": "", "required": false }],
       message: "",
-      activeTab: 'arguments'
+      activeTab: 'arguments',
+      editorOpen: false
     },
     methods: {
       activateTab(tabName) {
@@ -146,6 +151,7 @@
         return newArgument(name, type, '', value);
       },
       deleteAllArguments() {
+        this.editorOpen = false;  // Can't have an open editor if there are no arguments
         this.exampleArguments = [];
         this.flashMessage('All arguments deleted');
       },
