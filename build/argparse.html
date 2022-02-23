@@ -20,33 +20,29 @@
   <section class="section">
     <div class="columns">
       <div class="column is-two-thirds box">
+        <button class="button is-small" v-bind:class="{ 'is-light': copiedLatest }" @click='copyArgparse'>Copy</button>
         <pre>{{ argparse }}</pre>
       </div>
       <div class="column box">
         <div class="tabs">
           <ul>
-            <li v-bind:class="{ 'is-active': argumentsPanelIsActive }"><a @click="activateTab('arguments')">Arguments</a></li>
-            <li v-bind:class="{ 'is-active': settingsPanelIsActive }"><a @click="activateTab('settings')">Settings</a></li>
+            <li v-bind:class="{ 'is-active': argumentsPanelIsActive }"><a
+                @click="activateTab('arguments')">Arguments</a></li>
+            <li v-bind:class="{ 'is-active': settingsPanelIsActive }"><a @click="activateTab('settings')">Settings</a>
+            </li>
           </ul>
         </div>
         <div id="cliArguments" v-show="activeTab === 'arguments'">
-          <argument-form
-            @add-argument="addArgument"
-            v-show="!editorOpen"></argument-form>
-          <div v-for="argument in exampleArguments" :key="argument.id">
-            <argument-display 
-              v-bind:arg="argument"
-              @delete-argument="deleteArgument(argument.id)"
-              @copy-argument="copyArgument"
-              @move-up="moveArgumentUp(argument.id)"
-              @move-down="moveArgumentDown(argument.id)"
-              @edited-argument="updateArgument"
-              @editor-open="editorOpen = true"
-              @editor-closed="editorOpen = false">
+          <argument-form @add-argument="addArgument" v-show="!editorOpen"></argument-form>
+          <div v-for="argument in arguments" :key="argument.id">
+            <argument-display v-bind:arg="argument" @delete-argument="deleteArgument(argument.id)"
+              @copy-argument="copyArgument" @move-up="moveArgumentUp(argument.id)"
+              @move-down="moveArgumentDown(argument.id)" @edited-argument="updateArgument"
+              @editor-open="editorOpen = true" @editor-closed="editorOpen = false">
             </argument-display>
           </div>
           <br>
-          <button class="button is-danger" @click="deleteAllArguments" v-show="exampleArguments.length > 0">Delete
+          <button class="button is-danger" @click="deleteAllArguments" v-show="arguments.length > 0">Delete
             All</button>
         </div>
         <div id="settingsPanel" v-show="activeTab === 'settings'">
@@ -92,10 +88,6 @@
               </div>
             </div>
 
-            <label class="checkbox">
-              <input type="checkbox" v-model="demoArgumentsDev">
-              Dev Mode
-            </label>
           </div>
         </div>
       </div>
@@ -114,9 +106,6 @@
     },
     data: {
       sitename: "Python Argparse Generator",
-      specification: {
-        rawArguments: 'filename,str,/data/file.csv\nlimit,int,10\n--overwrite,bool,true\n--delay,int'
-      },
       advancedSettings: {
         typeHints: true,
         parserName: 'parser',
@@ -126,16 +115,20 @@
         argsName: 'args'
       },
       nextArgumentID: 5,
-      demoArgumentsDev: true,  // This is temporary switch while PRs go in before final change to edit / delete / reorder etc
-      exampleArguments: [{ "id": 1, "name": "filename", "type": "str", "variableName": "filename", "default": "/data/file.csv", "required": false },
+      arguments: [{ "id": 1, "name": "filename", "type": "str", "variableName": "filename", "default": "/data/file.csv", "required": false },
       { "id": 2, "name": "limit", "type": "int", "variableName": "limit", "default": "10", "required": false },
       { "id": 3, "name": "--overwrite", "type": "bool", "variableName": "overwrite", "default": "true", "required": false },
       { "id": 4, "name": "--delay", "type": "int", "variableName": "delay", "default": "", "required": false }],
       message: "",
       activeTab: 'arguments',
-      editorOpen: false
+      editorOpen: false,
+      copiedLatest: false
     },
     methods: {
+      copyArgparse() {
+        navigator.clipboard.writeText(this.argparse);
+        this.copiedLatest = true;
+      },
       activateTab(tabName) {
         this.activeTab = tabName;
       },
@@ -152,50 +145,50 @@
       },
       deleteAllArguments() {
         this.editorOpen = false;  // Can't have an open editor if there are no arguments
-        this.exampleArguments = [];
+        this.arguments = [];
         this.flashMessage('All arguments deleted');
       },
       deleteArgument(argumentID) {
-        const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
-        const argument = this.exampleArguments[index];
-        this.exampleArguments.splice(index, 1);
+        const index = this.arguments.findIndex(arg => arg.id === argumentID);
+        const argument = this.arguments[index];
+        this.arguments.splice(index, 1);
         this.flashMessage(`Deleted argument ${argument.name}`);
       },
       copyArgument(argumentID) {
-        const argument = this.exampleArguments.find(arg => arg.id === argumentID);
+        const argument = this.arguments.find(arg => arg.id === argumentID);
         let newArgument = JSON.parse(JSON.stringify(argument));
         newArgument.id = this.nextArgumentID;
         this.nextArgumentID++;
-        this.exampleArguments.push(newArgument);
+        this.arguments.push(newArgument);
         this.flashMessage(`Copied argument ${argument.name}`);
       },
       updateArgument(updatedArgument) {
-        const index = this.exampleArguments.findIndex(arg => arg.id === updatedArgument.id);
-        this.exampleArguments.splice(index, 1, updatedArgument);
+        const index = this.arguments.findIndex(arg => arg.id === updatedArgument.id);
+        this.arguments.splice(index, 1, updatedArgument);
         this.flashMessage(`Updated argument ${updatedArgument.name}`);
       },
       moveArgumentUp(argumentID) {
-        const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
-        const arg = this.exampleArguments[index];
+        const index = this.arguments.findIndex(arg => arg.id === argumentID);
+        const arg = this.arguments[index];
         const toIndex = index - 1;
         if (toIndex < 0) {
           return;
         }
-        this.exampleArguments.splice(index, 1);
-        this.exampleArguments.splice(toIndex, 0, arg);
+        this.arguments.splice(index, 1);
+        this.arguments.splice(toIndex, 0, arg);
       },
       moveArgumentDown(argumentID) {
-        const index = this.exampleArguments.findIndex(arg => arg.id === argumentID);
-        const arg = this.exampleArguments[index];
+        const index = this.arguments.findIndex(arg => arg.id === argumentID);
+        const arg = this.arguments[index];
         const toIndex = index + 1;
-        if (toIndex >= this.exampleArguments.length) {
+        if (toIndex >= this.arguments.length) {
           return;
         }
-        this.exampleArguments.splice(index, 1);
-        this.exampleArguments.splice(toIndex, 0, arg);
+        this.arguments.splice(index, 1);
+        this.arguments.splice(toIndex, 0, arg);
       },
       addArgument(argument) {
-        this.exampleArguments.push({
+        this.arguments.push({
           "id": this.nextArgumentID,
           "name": argument.name,
           "type": argument.type,
@@ -207,19 +200,18 @@
         this.flashMessage(`Added argument: ${argument.name}`);
       }
     },
+    watch: {
+      argparse: function (val) {
+        // When final output changes then user's copy to clipboard is out of date
+        this.copiedLatest = false;
+      }
+    },
     computed: {
       argumentsPanelIsActive() {
         return this.activeTab === 'arguments';
       },
       settingsPanelIsActive() {
         return this.activeTab === 'settings';
-      },
-      arguments() {
-        if (this.specification.rawArguments === "") {
-          return [];
-        }
-        let x = this.specification.rawArguments.split("\n").filter(e => e).map(x => this.parseRawArgument(x));
-        return x;
       },
       argparse() {
         let settings = defaultSettings();
@@ -230,12 +222,7 @@
         settings.mainName = this.advancedSettings.mainName;
         settings.cliName = this.advancedSettings.cliName;
         settings.argsName = this.advancedSettings.argsName;
-        let args;
-        if (this.demoArgumentsDev) {
-          args = this.exampleArguments;
-        } else {
-          args = this.arguments;
-        }
+        let args = this.arguments;
         return argparseCode(args, settings);
       }
     }
