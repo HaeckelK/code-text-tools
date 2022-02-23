@@ -25,24 +25,19 @@
       <div class="column box">
         <div class="tabs">
           <ul>
-            <li v-bind:class="{ 'is-active': argumentsPanelIsActive }"><a @click="activateTab('arguments')">Arguments</a></li>
-            <li v-bind:class="{ 'is-active': settingsPanelIsActive }"><a @click="activateTab('settings')">Settings</a></li>
+            <li v-bind:class="{ 'is-active': argumentsPanelIsActive }"><a
+                @click="activateTab('arguments')">Arguments</a></li>
+            <li v-bind:class="{ 'is-active': settingsPanelIsActive }"><a @click="activateTab('settings')">Settings</a>
+            </li>
           </ul>
         </div>
         <div id="cliArguments" v-show="activeTab === 'arguments'">
-          <argument-form
-            @add-argument="addArgument"
-            v-show="!editorOpen"></argument-form>
+          <argument-form @add-argument="addArgument" v-show="!editorOpen"></argument-form>
           <div v-for="argument in exampleArguments" :key="argument.id">
-            <argument-display 
-              v-bind:arg="argument"
-              @delete-argument="deleteArgument(argument.id)"
-              @copy-argument="copyArgument"
-              @move-up="moveArgumentUp(argument.id)"
-              @move-down="moveArgumentDown(argument.id)"
-              @edited-argument="updateArgument"
-              @editor-open="editorOpen = true"
-              @editor-closed="editorOpen = false">
+            <argument-display v-bind:arg="argument" @delete-argument="deleteArgument(argument.id)"
+              @copy-argument="copyArgument" @move-up="moveArgumentUp(argument.id)"
+              @move-down="moveArgumentDown(argument.id)" @edited-argument="updateArgument"
+              @editor-open="editorOpen = true" @editor-closed="editorOpen = false">
             </argument-display>
           </div>
           <br>
