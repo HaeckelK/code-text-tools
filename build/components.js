@@ -79,21 +79,21 @@ const CLIArgumentEditorForm = {
 
 const CLIAgumentDisplay = {
   template: `<div>
-  <div class="btn-group" style="padding: 2px;" v-if="!isEditing">
-    <button type="button" class="btn btn-info" @click="toggleEditor">
-      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+  <div style="padding: 2px;" v-if="!isEditing">
+    <button type="button" class="button is-info is-small" @click="toggleEditor">
+      <i class="fa-solid fa-pen-to-square"></i>
     </button>
-    <button type="button" class="btn btn-secondary" @click="moveUp">
-      <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+    <button type="button" class="button is-info is-small" @click="moveUp">
+      <i class="fa-solid fa-arrow-up"></i>
     </button>
-    <button type="button" class="btn btn-secondary" @click="moveDown">
-      <span class="glyphicon glyphicon-arrow-down" aria-hidden="false"></span>
+    <button type="button" class="button is-info is-small" @click="moveDown">
+      <i class="fa-solid fa-arrow-down"></i>
     </button>
-    <button type="button" class="btn btn-secondary" @click="copyArgument">
-      <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+    <button type="button" class="button is-success is-small" @click="copyArgument">
+      <i class="fa-solid fa-clone"></i>
     </button>
-    <button type="button" class="btn btn-danger" @click="deleteArgument">
-      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    <button type="button" class="button is-danger is-small" @click="deleteArgument">
+      <i class="fa-solid fa-minus"></i>
     </button>
     <span style="padding-left: 30px; font-weight: bold;">{{ arg.name }} [{{arg.type}}]</span>
   </div>

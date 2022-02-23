@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Python Argparse Generator</title>
 
+  <script src="https://kit.fontawesome.com/2bdedf486b.js" crossorigin="anonymous"></script>
   <script src="components.js"></script>
 
   <script>var exports = {};</script>
@@ -36,7 +37,7 @@
             </argument-display>
           </div>
           <br>
-          <button @click="deleteAllArguments" v-show="exampleArguments.length > 0">Delete
+          <button class="button is-danger" @click="deleteAllArguments" v-show="exampleArguments.length > 0">Delete
             All</button>
         </div>
         <div id="settingsPanel" v-show="activeTab === 'settings'">
