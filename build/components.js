@@ -22,34 +22,61 @@ const PageFooter = {
 
 
 const CLIArgumentEditorForm = {
-  template: `<div>
-  <h3>Editing: {{name}}</h3>
-  <form @submit.prevent="saveEditor">
-    Name: <input type="text" v-model.trim="name" ref="nameInput"><br>
-    Type: 
-    <select type="text" v-model="type">
-      <option>str</option>
-      <option>int</option>
-      <option>float</option>
-      <option>bool</option>
-    </select>
-    <br>
-    DefaultValue: <input type="text" v-model.lazy.trim="defaultValue"><br>
-    Variable Name: <input type="text" v-model.lazy.trim="variableName" ref="variableNameInput"><br>
-    Required: 
-    <select type="text" v-model="required">
-      <option>true</option>
-      <option>false</option>
-    </select>
-    <br>
+  template: `<nav class="panel is-info">
+  <p class="panel-heading">
+    Editing: {{name}}
+    <button class="delete is-pulled-right" @click="cancelEditor"></button>
+  </p>
+  <div class="panel-block is-active">
+    <form @submit.prevent="saveEditor">
+
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="Argument name" v-model.lazy.trim="name" ref="nameInput">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Type</label>
+      <div class="control">
+        <div class="select">
+          <select type="text" v-model="type">
+            <option>str</option>
+            <option>int</option>
+            <option>float</option>
+            <option>bool</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Default Value</label>
+      <div class="control">
+        <input class="input" type="text" v-model.lazy.trim="defaultValue" ref="nameInput">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Variable Name</label>
+      <div class="control">
+        <input class="input" type="text" v-model.lazy.trim="variableName" ref="nameInput">
+      </div>
+    </div>
+
+    <label class="checkbox">
+      <input type="checkbox" v-model="required">
+      Required
+    </label>
   </form>
-  <button type="button" class="btn btn-success" @click="saveEditor">
-    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-  </button>
-  <button type="button" class="btn btn-danger" @click="cancelEditor">
-    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-  </button>
-</div>`,
+  </div>
+  <div class="panel-block is-active">
+    <button type="button" class="button is-success is-small" @click="saveEditor">
+      Confirm
+    </button>
+  </div>
+</nav>`,
   props: ['arg'],
   data() {
     return {
