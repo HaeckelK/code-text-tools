@@ -16,6 +16,25 @@
 </head>
 <div id="app">
   <section class="section">
+    <div class="columns">
+      <div class="column is-two-thirds">
+        <pre>{{ argparse }}</pre>
+      </div>
+      <div class="column">
+        <div id="cliArguments" v-show="demoArgumentsDev">
+          <argument-form @add-argument="addArgument"></argument-form>
+          <div v-for="argument in exampleArguments" :key="argument.id">
+            <argument-display v-bind:arg="argument" @delete-argument="deleteArgument(argument.id)"
+              @copy-argument="copyArgument" @move-up="moveArgumentUp(argument.id)"
+              @move-down="moveArgumentDown(argument.id)" @edited-argument="updateArgument">
+            </argument-display>
+          </div>
+          <br>
+          <button @click="deleteAllArguments" v-show="exampleArguments.length > 0">Delete
+            All</button>
+        </div>
+      </div>
+    </div>
     <div>
       <div>
         <div>
@@ -29,19 +48,6 @@
             </div>
             <textarea v-model="specification.rawArguments"
               v-show="!demoArgumentsDev"></textarea>
-            <div id="cliArguments" v-show="demoArgumentsDev">
-              <h3>Arguments:</h3>
-              <argument-form @add-argument="addArgument"></argument-form>
-              <div v-for="argument in exampleArguments" :key="argument.id">
-                <argument-display v-bind:arg="argument" @delete-argument="deleteArgument(argument.id)"
-                  @copy-argument="copyArgument" @move-up="moveArgumentUp(argument.id)"
-                  @move-down="moveArgumentDown(argument.id)" @edited-argument="updateArgument">
-                </argument-display>
-              </div>
-              <br>
-              <button @click="deleteAllArguments" v-show="exampleArguments.length > 0">Delete
-                All</button>
-            </div>
             <br>
             <button type="button" v-on:click="toggleShowAdvancedSettings">
               <p v-if="showAdvancedSettings">Hide Advanced Settings</p>
@@ -61,22 +67,19 @@
                 <input type="checkbox" v-model="demoArgumentsDev"><br>
               </div>
             </div>
-            <div>
-              <div>
-                <pre>{{ argparse }}</pre>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+  <page-footer></page-footer>
 </div>
 <script type="text/javascript">
   var webstore = new Vue({
     el: '#app',
     components: {
       'page-banner': PageBanner,
+      'page-footer': PageFooter,
       'argument-display': CLIAgumentDisplay,
       'argument-form': CLIArgumentForm
     },
