@@ -17,7 +17,6 @@
 </head>
 <div id="app">
   <page-banner :pagename="sitename"></page-banner>
-  <div v-show="message">{{ message }}</div>
   <section class="section">
     <div class="columns">
       <div class="column is-two-thirds box">
@@ -33,9 +32,13 @@
         <div id="cliArguments" v-show="activeTab === 'arguments'">
           <argument-form @add-argument="addArgument"></argument-form>
           <div v-for="argument in exampleArguments" :key="argument.id">
-            <argument-display v-bind:arg="argument" @delete-argument="deleteArgument(argument.id)"
-              @copy-argument="copyArgument" @move-up="moveArgumentUp(argument.id)"
-              @move-down="moveArgumentDown(argument.id)" @edited-argument="updateArgument">
+            <argument-display 
+              v-bind:arg="argument"
+              @delete-argument="deleteArgument(argument.id)"
+              @copy-argument="copyArgument"
+              @move-up="moveArgumentUp(argument.id)"
+              @move-down="moveArgumentDown(argument.id)"
+              @edited-argument="updateArgument">
             </argument-display>
           </div>
           <br>
