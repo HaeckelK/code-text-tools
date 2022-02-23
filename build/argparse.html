@@ -201,7 +201,8 @@
       }
     },
     watch: {
-      arguments: function (val) {
+      argparse: function (val) {
+        // When final output changes then user's copy to clipboard is out of date
         this.copiedLatest = false;
       }
     },
