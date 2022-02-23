@@ -17,12 +17,13 @@
 </head>
 <div id="app">
   <page-banner :pagename="sitename"></page-banner>
+  <div v-show="message">{{ message }}</div>
   <section class="section">
     <div class="columns">
-      <div class="column is-two-thirds">
+      <div class="column is-two-thirds box">
         <pre>{{ argparse }}</pre>
       </div>
-      <div class="column">
+      <div class="column box">
         <div class="tabs">
           <ul>
             <li v-bind:class="{ 'is-active': argumentsPanelIsActive }"><a @click="activateTab('arguments')">Arguments</a></li>
@@ -89,13 +90,6 @@
               Dev Mode
             </label>
           </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div>
-        <div>
-          <div v-show="message">{{ message }}</div>
         </div>
       </div>
     </div>
