@@ -1,11 +1,11 @@
 const PageBanner = {
-  template: `<header>
-    <div>
-      <div>
-        <h1>{{ pagename }}</h1>
-      </div>
-    </div>
-  </header>`,
+  template: `<section class="hero is-info">
+  <div class="hero-body">
+    <p class="title">
+      {{ pagename }}
+    </p>
+  </div>
+</section>`,
   props: ['pagename']
 };
 
