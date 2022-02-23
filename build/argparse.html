@@ -87,10 +87,6 @@
               </div>
             </div>
 
-            <label class="checkbox">
-              <input type="checkbox" v-model="demoArgumentsDev">
-              Dev Mode
-            </label>
           </div>
         </div>
       </div>
@@ -121,7 +117,6 @@
         argsName: 'args'
       },
       nextArgumentID: 5,
-      demoArgumentsDev: true,  // This is temporary switch while PRs go in before final change to edit / delete / reorder etc
       exampleArguments: [{ "id": 1, "name": "filename", "type": "str", "variableName": "filename", "default": "/data/file.csv", "required": false },
       { "id": 2, "name": "limit", "type": "int", "variableName": "limit", "default": "10", "required": false },
       { "id": 3, "name": "--overwrite", "type": "bool", "variableName": "overwrite", "default": "true", "required": false },
@@ -225,12 +220,7 @@
         settings.mainName = this.advancedSettings.mainName;
         settings.cliName = this.advancedSettings.cliName;
         settings.argsName = this.advancedSettings.argsName;
-        let args;
-        if (this.demoArgumentsDev) {
-          args = this.exampleArguments;
-        } else {
-          args = this.arguments;
-        }
+        let args = this.exampleArguments;
         return argparseCode(args, settings);
       }
     }
