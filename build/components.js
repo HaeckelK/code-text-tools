@@ -1,44 +1,82 @@
 const PageBanner = {
-  template: `<header>
-    <div class="navbar navbar-default">
-      <div class="navbar-header">
-        <h1>{{ pagename }}</h1>
-      </div>
-    </div>
-  </header>`,
+  template: `<section class="hero is-info">
+  <div class="hero-body">
+    <p class="title">
+      {{ pagename }}
+    </p>
+  </div>
+</section>`,
   props: ['pagename']
+};
+
+const PageFooter = {
+  template: `<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>My Code Buddy</strong> by <a href="https://github.com/HaeckelK/code-text-tools">HaeckelK</a>. The source code is licensed
+      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+    </p>
+  </div>
+</footer>`
 };
 
 
 const CLIArgumentEditorForm = {
-  template: `<div>
-  <h3>Editing: {{name}}</h3>
-  <form @submit.prevent="saveEditor">
-    Name: <input type="text" v-model.trim="name" ref="nameInput"><br>
-    Type: 
-    <select type="text" v-model="type">
-      <option>str</option>
-      <option>int</option>
-      <option>float</option>
-      <option>bool</option>
-    </select>
-    <br>
-    DefaultValue: <input type="text" v-model.lazy.trim="defaultValue"><br>
-    Variable Name: <input type="text" v-model.lazy.trim="variableName" ref="variableNameInput"><br>
-    Required: 
-    <select type="text" v-model="required">
-      <option>true</option>
-      <option>false</option>
-    </select>
-    <br>
+  template: `<nav class="panel is-info">
+  <p class="panel-heading">
+    Editing: {{name}}
+    <button class="delete is-pulled-right" @click="cancelEditor"></button>
+  </p>
+  <div class="panel-block is-active">
+    <form @submit.prevent="saveEditor">
+
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="Argument name" v-model.lazy.trim="name" ref="nameInput">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Type</label>
+      <div class="control">
+        <div class="select">
+          <select type="text" v-model="type">
+            <option>str</option>
+            <option>int</option>
+            <option>float</option>
+            <option>bool</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Default Value</label>
+      <div class="control">
+        <input class="input" type="text" v-model.lazy.trim="defaultValue" ref="nameInput">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Variable Name</label>
+      <div class="control">
+        <input class="input" type="text" v-model.lazy.trim="variableName" ref="nameInput">
+      </div>
+    </div>
+
+    <label class="checkbox">
+      <input type="checkbox" v-model="required">
+      Required
+    </label>
   </form>
-  <button type="button" class="btn btn-success" @click="saveEditor">
-    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-  </button>
-  <button type="button" class="btn btn-danger" @click="cancelEditor">
-    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-  </button>
-</div>`,
+  </div>
+  <div class="panel-block is-active">
+    <button type="button" class="button is-success is-small" @click="saveEditor">
+      Confirm
+    </button>
+  </div>
+</nav>`,
   props: ['arg'],
   data() {
     return {
@@ -66,24 +104,23 @@ const CLIArgumentEditorForm = {
   }
 }
 
-
 const CLIAgumentDisplay = {
   template: `<div>
-  <div class="btn-group" style="padding: 2px;" v-if="!isEditing">
-    <button type="button" class="btn btn-info" @click="toggleEditor">
-      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+  <div style="padding: 2px;" v-if="!isEditing">
+    <button type="button" class="button is-info is-small" @click="toggleEditor">
+      <i class="fa-solid fa-pen-to-square"></i>
     </button>
-    <button type="button" class="btn btn-secondary" @click="moveUp">
-      <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+    <button type="button" class="button is-info is-small" @click="moveUp">
+      <i class="fa-solid fa-arrow-up"></i>
     </button>
-    <button type="button" class="btn btn-secondary" @click="moveDown">
-      <span class="glyphicon glyphicon-arrow-down" aria-hidden="false"></span>
+    <button type="button" class="button is-info is-small" @click="moveDown">
+      <i class="fa-solid fa-arrow-down"></i>
     </button>
-    <button type="button" class="btn btn-secondary" @click="copyArgument">
-      <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+    <button type="button" class="button is-success is-small" @click="copyArgument">
+      <i class="fa-solid fa-clone"></i>
     </button>
-    <button type="button" class="btn btn-danger" @click="deleteArgument">
-      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    <button type="button" class="button is-danger is-small" @click="deleteArgument">
+      <i class="fa-solid fa-minus"></i>
     </button>
     <span style="padding-left: 30px; font-weight: bold;">{{ arg.name }} [{{arg.type}}]</span>
   </div>
@@ -116,29 +153,56 @@ const CLIAgumentDisplay = {
       editedArgument.id = this.arg.id;
       this.isEditing = false;
       this.$emit('edited-argument', editedArgument);
+      this.$emit('editor-closed');
     },
     toggleEditor() {
       this.isEditing = !this.isEditing;
+      if (this.isEditing) {
+        this.$emit('editor-open');
+      } else {
+        this.$emit('editor-closed');
+      }
     }
   }
 };
 
 const CLIArgumentForm = {
   template: `<div>
-  <form @submit.prevent="onSubmit">
-    Name: <input type="text" v-model.lazy.trim="name" ref="nameInput"><br>
-    Type: 
-    <select type="text" v-model="type">
-      <option>str</option>
-      <option>int</option>
-      <option>float</option>
-      <option>bool</option>
-    </select>
-    <br>
-    DefaultValue: <input type="text" v-model.lazy.trim="defaultValue"><br>
-    <button type="submit" class="btn btn-primary">
-      Add
-    </button>
+  <form class="box" @submit.prevent="onSubmit">
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="Argument name" v-model.lazy.trim="name" ref="nameInput">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Type</label>
+      <div class="control">
+        <div class="select">
+          <select type="text" v-model="type">
+            <option>str</option>
+            <option>int</option>
+            <option>float</option>
+            <option>bool</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Default Value</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="Default Value" v-model.lazy.trim="defaultValue">
+      </div>
+    </div>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-link is-small" type="submit">Add</button>
+      </div>
+    </div>
+
   </form>
 </div>`,
   methods: {

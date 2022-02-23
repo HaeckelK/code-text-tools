@@ -1,86 +1,117 @@
+<!DOCTYPE html>
 <html>
 
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Python Argparse Generator</title>
 
+  <script src="https://kit.fontawesome.com/2bdedf486b.js" crossorigin="anonymous"></script>
   <script src="components.js"></script>
 
   <script>var exports = {};</script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/python-argparse-generator@0.2/lib/index.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
 </head>
 <div id="app">
-  <page-banner v-bind:pagename="sitename"></page-banner>
-  <main>
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-        <div class="panel panel-info">
-          <div class="alert alert-info" role="alert" v-show="message">{{ message }}</div>
-          <div class="panel-body">
-            <div class="panel panel-default">
-              <div class="panel-body">Generate a Python Argparse CLI function.
-                Add arguments in format name,type,default.
-              </div>
+  <page-banner :pagename="sitename"></page-banner>
+  <section class="section">
+    <div class="columns">
+      <div class="column is-two-thirds box">
+        <pre>{{ argparse }}</pre>
+      </div>
+      <div class="column box">
+        <div class="tabs">
+          <ul>
+            <li v-bind:class="{ 'is-active': argumentsPanelIsActive }"><a @click="activateTab('arguments')">Arguments</a></li>
+            <li v-bind:class="{ 'is-active': settingsPanelIsActive }"><a @click="activateTab('settings')">Settings</a></li>
+          </ul>
+        </div>
+        <div id="cliArguments" v-show="activeTab === 'arguments'">
+          <argument-form
+            @add-argument="addArgument"
+            v-show="!editorOpen"></argument-form>
+          <div v-for="argument in exampleArguments" :key="argument.id">
+            <argument-display 
+              v-bind:arg="argument"
+              @delete-argument="deleteArgument(argument.id)"
+              @copy-argument="copyArgument"
+              @move-up="moveArgumentUp(argument.id)"
+              @move-down="moveArgumentDown(argument.id)"
+              @edited-argument="updateArgument"
+              @editor-open="editorOpen = true"
+              @editor-closed="editorOpen = false">
+            </argument-display>
+          </div>
+          <br>
+          <button class="button is-danger" @click="deleteAllArguments" v-show="exampleArguments.length > 0">Delete
+            All</button>
+        </div>
+        <div id="settingsPanel" v-show="activeTab === 'settings'">
+          <div id="advancedSettingsArea">
+            <h4 class="title">Advanced Settings</h4>
+            <label class="checkbox">
+              <input type="checkbox" v-model="advancedSettings.typeHints">
+              Type Hints
+            </label>
 
-            </div>
-            <textarea style="margin: 0px; width: 300px; height: 200px;"
-                      v-model="specification.rawArguments"
-                      v-show="!demoArgumentsDev"></textarea>
-            <div id="cliArguments" v-show="demoArgumentsDev">
-              <h3>Arguments:</h3>
-              <argument-form @add-argument="addArgument"></argument-form>
-              <div v-for="argument in exampleArguments" :key="argument.id">
-                <argument-display v-bind:arg="argument"
-                                  @delete-argument="deleteArgument(argument.id)"
-                                  @copy-argument="copyArgument"
-                                  @move-up="moveArgumentUp(argument.id)"
-                                  @move-down="moveArgumentDown(argument.id)"
-                                  @edited-argument="updateArgument">
-                </argument-display>
-              </div>
-              <br>
-              <button class="btn btn-danger"
-                      @click="deleteAllArguments"
-                      v-show="exampleArguments.length > 0">Delete All</button>
-            </div>
-            <br>
-            <button type="button" class="btn btn-default" v-on:click="toggleShowAdvancedSettings">
-              <p v-if="showAdvancedSettings">Hide Advanced Settings</p>
-              <p v-else>Show Advanced Settings</p>
-            </button>
-            <div class="col-md-12 verify" v-show="showAdvancedSettings">
-              <div id="advancedSettingsArea">
-                <h4>Advanced Settings</h4>
-                <label for="checkbox">Type Hints: </label>
-                <input type="checkbox" id="typeHintsCheckbox" v-model="advancedSettings.typeHints"><br>
-                <label>Parser Variable Name: </label><input v-model="advancedSettings.parserName"><br>
-                <label>Main Function Placeholder: </label><input v-model="advancedSettings.mainContents"><br>
-                <label>Main Function Name: </label><input v-model="advancedSettings.mainName"><br>
-                <label>CLI Function Name: </label><input v-model="advancedSettings.cliName"><br>
-                <label>Argument Return Object Name: </label><input v-model="advancedSettings.argsName"><br>
-                <label for="checkbox">Dev Mode: </label>
-                <input type="checkbox" v-model="demoArgumentsDev"><br>
+            <div class="field">
+              <label class="label">Parser Variable Name</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Text input" v-model="advancedSettings.parserName">
               </div>
             </div>
-            <div class="form-group">
-              <div class="col-md-12 verify">
-                <pre>{{ argparse }}</pre>
+
+            <div class="field">
+              <label class="label">Main Function Placeholder</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Text input" v-model="advancedSettings.mainContents">
               </div>
             </div>
+
+            <div class="field">
+              <label class="label">Main Function Name</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Text input" v-model="advancedSettings.mainName">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">CLI Function Name</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Text input" v-model="advancedSettings.cliName">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Argument Return Object Name</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Text input" v-model="advancedSettings.argsName">
+              </div>
+            </div>
+
+            <label class="checkbox">
+              <input type="checkbox" v-model="demoArgumentsDev">
+              Dev Mode
+            </label>
           </div>
         </div>
       </div>
     </div>
-  </main>
+  </section>
+  <page-footer></page-footer>
 </div>
 <script type="text/javascript">
   var webstore = new Vue({
     el: '#app',
-    components: {'page-banner': PageBanner,
-                 'argument-display': CLIAgumentDisplay,
-                 'argument-form': CLIArgumentForm},
+    components: {
+      'page-banner': PageBanner,
+      'page-footer': PageFooter,
+      'argument-display': CLIAgumentDisplay,
+      'argument-form': CLIArgumentForm
+    },
     data: {
       sitename: "Python Argparse Generator",
       specification: {
@@ -95,15 +126,19 @@
         argsName: 'args'
       },
       nextArgumentID: 5,
-      showAdvancedSettings: false,
       demoArgumentsDev: true,  // This is temporary switch while PRs go in before final change to edit / delete / reorder etc
       exampleArguments: [{ "id": 1, "name": "filename", "type": "str", "variableName": "filename", "default": "/data/file.csv", "required": false },
       { "id": 2, "name": "limit", "type": "int", "variableName": "limit", "default": "10", "required": false },
       { "id": 3, "name": "--overwrite", "type": "bool", "variableName": "overwrite", "default": "true", "required": false },
       { "id": 4, "name": "--delay", "type": "int", "variableName": "delay", "default": "", "required": false }],
-      message: ""
+      message: "",
+      activeTab: 'arguments',
+      editorOpen: false
     },
     methods: {
+      activateTab(tabName) {
+        this.activeTab = tabName;
+      },
       flashMessage(message) {
         console.log(message);
         this.message = message;
@@ -115,10 +150,8 @@
         let value = items[2];
         return newArgument(name, type, '', value);
       },
-      toggleShowAdvancedSettings() {
-        this.showAdvancedSettings = this.showAdvancedSettings ? false : true;
-      },
       deleteAllArguments() {
+        this.editorOpen = false;  // Can't have an open editor if there are no arguments
         this.exampleArguments = [];
         this.flashMessage('All arguments deleted');
       },
@@ -162,17 +195,25 @@
         this.exampleArguments.splice(toIndex, 0, arg);
       },
       addArgument(argument) {
-        this.exampleArguments.push({"id": this.nextArgumentID,
-                                    "name": argument.name,
-                                    "type": argument.type,
-                                    "variableName": argument.variableName,
-                                    "default": argument.default,
-                                    "required": argument.required })
+        this.exampleArguments.push({
+          "id": this.nextArgumentID,
+          "name": argument.name,
+          "type": argument.type,
+          "variableName": argument.variableName,
+          "default": argument.default,
+          "required": argument.required
+        })
         this.nextArgumentID++;
         this.flashMessage(`Added argument: ${argument.name}`);
       }
     },
     computed: {
+      argumentsPanelIsActive() {
+        return this.activeTab === 'arguments';
+      },
+      settingsPanelIsActive() {
+        return this.activeTab === 'settings';
+      },
       arguments() {
         if (this.specification.rawArguments === "") {
           return [];
